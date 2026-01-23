@@ -2,6 +2,7 @@
 from shared.split import split_by_dot
 
 
+# TODO: handle errors
 def get_from_path(path, obj):
     keys = split_by_dot(path)
     relative_value = obj
