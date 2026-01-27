@@ -21,8 +21,7 @@ jobs:
           - name: generate coverage
             run: |
               coverage run -m unittest discover
-              echo coverage report --format=total >> $TOTAL
-          
+              echo "TOTAL=$(coverage report --format=total)" >> $GITHUB_ENV
           - name: "Make badge"
             uses: schneegans/dynamic-badges-action@v1.4.0
             with:
