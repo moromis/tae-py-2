@@ -27,15 +27,10 @@ def create_character(filepath: str):
                     "Which room?", options=[(r, r) for r in rooms.keys()]
                 )
                 room = rooms[room_name]
-                # room = room_manager.get_room_by_name(room_name)
         responses = character_responses(session)
 
         new_character = Character(name, desc, room, responses)
 
-        # cls()
-        # fprint(character)
-
-        # write_data_json(f"character_{name}", character)
         character_manager.add_character(new_character)
         write_game_data(filepath)
 

@@ -1,4 +1,3 @@
-from editor import room
 from shared.types.Response import Response
 from shared.types.Room import Room
 from shared.types.Writeable import Writeable
@@ -30,43 +29,48 @@ class Character(Writeable):
             "desc": self.desc,
             "room": self.room.to_dict() if self.room else None,
             "responses": (
-                {t: r.to_dict() for t, r in self.responses.items()}
+                {
+                    t: r.to_dict() if isinstance(r, Writeable) else r
+                    for t, r in self.responses.items()
+                }
                 if self.responses
                 else None
             ),
         }
 
-    @property
-    def name(self):
-        return self.name
+    # @property
+    # def name(self):
+    #     return self.name
 
-    @property
-    def desc(self):
-        return self.desc
+    # @property
+    # def desc(self):
+    #     return self.desc
 
-    @property
-    def room(self):
-        return self.room
+    # @property
+    # def room(self):
+    #     return self.room
 
-    @property
-    def responses(self):
-        return self.responses
+    # @property
+    # def responses(self):
+    #     return self.responses
 
-    @name.setter
-    def name(self, val):
-        self.name = val
+    # @name.setter
+    # def name(self, val):
+    #     self.name = val
 
-    @desc.setter
-    def desc(self, val):
-        self.desc = val
+    # @desc.setter
+    # def desc(self, val):
+    #     self.desc = val
 
-    @room.setter
-    def room(self, val):
-        self.room = val
+    # @room.setter
+    # def room(self, val):
+    #     self.room = val
 
-    @responses.setter
-    def responses(self, val):
-        self.responses = val
+    # @responses.setter
+    # def responses(self, val):
+    #     self.responses = val
 
     def add_response(self, topic: str, response: str | list[str], condition):
-        self.responses |= {topic: {"response": response, "condition": condition}}
+        if not self.responses:
+            self.responses = {}
+        self.responses[topic] = Response(response, condition)

@@ -34,7 +34,6 @@ def create_room(filepath: str):
         new_room = Room(name, desc, x, y)
         room_manager.add_room(new_room)
 
-        # write_data_json(f"room_{new_room}", new_room.to_dict())
         write_game_data(filepath)
 
     return create_room

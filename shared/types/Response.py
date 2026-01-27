@@ -2,7 +2,7 @@ from shared.types.Writeable import Writeable
 
 
 class Response(Writeable):
-    def __init__(self, response: str, condition) -> None:
+    def __init__(self, response: str | list[str], condition) -> None:
         self.response = response
         self.condition = condition
 

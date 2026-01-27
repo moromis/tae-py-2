@@ -20,17 +20,17 @@ def main_menu(session):
 
 
 def new_game(session: PromptSession):
-    # filepath = file_io.select_file()
     title: str = prompt(session, "What's the new game's title?")
     print("\n Select the folder to place the game's files in")
     filename = title.lower().replace(" ", "_")
-    folder = select_folder()
+    # folder = select_folder()
+    # TODO: revert
+    folder = "/Users/momo/Projects/tae-2026-test-games"
     print(filename, folder)
     filepath = os.path.join(folder, filename)
-    input("Press Enter to continue...")
+    # input("Press Enter to continue...")
     write_game_data(filepath)
     return MAIN, True
-    # print(filepath)
 
 
 editor_structure = {
@@ -40,6 +40,7 @@ editor_structure = {
         "Create a character": create_character(filepath),
         "Create a room": create_room(filepath),
         "Create an object": noop,
+        "Play/test the game": noop,
         GO_BACK: STOP_CODE,
     },
 }

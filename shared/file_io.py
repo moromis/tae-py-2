@@ -26,27 +26,29 @@ def select_file() -> str:
 
 
 def write_game_data(filepath):
-    create_file_if_not_exists(filepath)
+    create_json_file_if_not_exists(filepath)
     rooms = room_manager.get_rooms()
     characters = character_manager.get_characters()
     add_key_to_json_file(filepath, "rooms", rooms)
     add_key_to_json_file(filepath, "characters", characters)
 
 
-def create_file_if_not_exists(filename):
-    with io.open(f"{filename}.json", "ab"):
-        os.utime(filename, None)
-    # if not os.path.exists(filename):
-    #     with open(filename, 'w') as file:
-    #         file.write("Hello, World! This file was created using os.path.")
+def create_json_file_if_not_exists(filename):
+    if not os.path.exists(filename):
+        with open(f"{filename}.json", "w") as file:
+            file.write("{}")
 
 
 def add_key_to_json_file(filename, key, data):
     try:
-        with open(filename, "rw") as file:
-            data = json.load(file)
-            data[key] = data.to_dict()
-            json.dump(data, file)
+        file_contents = None
+        if isinstance(data, Writeable):
+            data = data.to_dict()
+        with open(f"{filename}.json", "r") as file:
+            file_contents = json.load(file)
+            file_contents[key] = data
+        with open(f"{filename}.json", "w+") as file:
+            json.dump(file_contents, file)
     except FileNotFoundError:
         print(f"Error: The file {filename} was not found.")
     except json.JSONDecodeError:
