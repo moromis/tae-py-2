@@ -1,7 +1,10 @@
+# TAE PY 2
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/moromis/874794f84d771375fcb289bc712df244/raw/covbadge.json)
+
+## Getting Started
+
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-look into:
-https://python-prompt-toolkit.readthedocs.io/en/3.0.52/pages/asking_for_input.html
-https://github.com/CITGuru/PyInquirer/
+## Running the App
