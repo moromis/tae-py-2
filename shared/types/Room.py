@@ -24,4 +24,5 @@ class Room(Writeable):
             "desc": self.desc,
             "x": self.x,
             "y": self.y,
+            "adjacencies": self.adjacencies,
         }

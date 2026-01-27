@@ -1,3 +1,4 @@
+from editor import room
 from shared.types.Response import Response
 from shared.types.Room import Room
 from shared.types.Writeable import Writeable
@@ -34,3 +35,38 @@ class Character(Writeable):
                 else None
             ),
         }
+
+    @property
+    def name(self):
+        return self.name
+
+    @property
+    def desc(self):
+        return self.desc
+
+    @property
+    def room(self):
+        return self.room
+
+    @property
+    def responses(self):
+        return self.responses
+
+    @name.setter
+    def name(self, val):
+        self.name = val
+
+    @desc.setter
+    def desc(self, val):
+        self.desc = val
+
+    @room.setter
+    def room(self, val):
+        self.room = val
+
+    @responses.setter
+    def responses(self, val):
+        self.responses = val
+
+    def add_response(self, topic: str, response: str | list[str], condition):
+        self.responses |= {topic: {"response": response, "condition": condition}}

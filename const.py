@@ -1,0 +1,1 @@
+STOP_CODE = "_STOP_"

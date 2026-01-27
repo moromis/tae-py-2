@@ -1,28 +1,40 @@
 from prompt_toolkit import PromptSession, choice
 
+from editor import room_manager
 from editor.shared.directions import DIRECTIONS
-from editor.shared.get_rooms import get_rooms
+from shared.file_io import write_data_json, write_game_data
 from shared.prompt import prompt
 from shared.types.Room import Room
-from shared.write_data_json import write_data_json
+from prompt_toolkit.shortcuts import checkboxlist_dialog
 
 
-def create_room(session: PromptSession):
-    name = prompt(session, "Room name?")
-    desc = prompt(session, "Room description?", multiline=True)
-    rooms = get_rooms()
-    if len(rooms) > 0:
-        attached = choice(
-            "Which room should this one be attached to?",
-            options=[(r.name, r.name) for r in rooms],
-        )
-        # get_valid_directions(attached)
-        direction = choice("Which direction?", options=DIRECTIONS)
-        x = 0
-        y = 0
-    else:
-        x = 0
-        y = 0
-    room = Room(name, desc, x, y)
+def create_room(filepath: str):
+    def _create_room(session: PromptSession):
+        name = prompt(session, "Room name?")
+        desc = prompt(session, "Room description?", multiline=True)
+        rooms = room_manager.get_rooms()
+        if len(rooms) > 0:
+            attached = checkboxlist_dialog(
+                title="Add room attachments",
+                text="Which room(s) should this one be attached to?",
+                values=[(r, r) for r in rooms.keys()],
+            ).run()
+            # attached = choice(
+            #     "Which room should this one be attached to?",
+            #     options=[(r.name, r.name) for r in rooms],
+            # )
+            # get_valid_directions(attached)
+            direction = choice("Which direction?", options=DIRECTIONS)
+            x = 0
+            y = 0
+        else:
+            x = 0
+            y = 0
 
-    write_data_json(f"room_{room}", room.to_dict())
+        new_room = Room(name, desc, x, y)
+        room_manager.add_room(new_room)
+
+        # write_data_json(f"room_{new_room}", new_room.to_dict())
+        write_game_data(filepath)
+
+    return create_room
