@@ -25,7 +25,7 @@ jobs:
           - name: "Make badge"
             uses: schneegans/dynamic-badges-action@v1.4.0
             with:
-              message: ${{ env.TOTAL }}
+              message: ${{ env.TOTAL }}%
               # GIST_TOKEN is a GitHub personal access token with scope "gist".
               auth: ${{ secrets.GIST_TOKEN }}
               gistID: 874794f84d771375fcb289bc712df244   # replace with your real Gist id.
