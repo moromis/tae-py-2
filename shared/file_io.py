@@ -6,7 +6,7 @@ from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import askdirectory
 
-from editor import character_manager, room_manager
+from editor import character_manager, object_manager, room_manager
 from shared.types.Writeable import Writeable
 
 
@@ -29,8 +29,10 @@ def write_game_data(filepath):
     create_json_file_if_not_exists(filepath)
     rooms = room_manager.get_rooms()
     characters = character_manager.get_characters()
+    objects = object_manager.get_objects()
     add_key_to_json_file(filepath, "rooms", rooms)
     add_key_to_json_file(filepath, "characters", characters)
+    add_key_to_json_file(filepath, "objects", objects)
 
 
 def create_json_file_if_not_exists(filename):

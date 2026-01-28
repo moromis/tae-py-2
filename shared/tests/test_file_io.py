@@ -3,7 +3,11 @@ import os
 from pathlib import Path
 import json
 
-from shared.file_io import create_json_file_if_not_exists, write_data_json
+from shared.file_io import (
+    create_json_file_if_not_exists,
+    write_data_json,
+    write_game_data,
+)
 from shared.types.Character import Character
 
 TEST_FILENAME = "test"
@@ -52,6 +56,15 @@ class TestFileIO(unittest.TestCase):
         with open(f"{TEST_FILENAME}.json", "r") as file:
             file_contents = json.load(file)
             self.assertDictEqual(file_contents, test_character.to_dict())
+
+    def test_write_game_data(self):
+        write_game_data(TEST_FILENAME)
+        # the file should have the correct contents
+        with open(f"{TEST_FILENAME}.json", "r") as file:
+            file_contents = json.load(file)
+            self.assertTrue("rooms" in file_contents)
+            self.assertTrue("characters" in file_contents)
+            self.assertTrue("objects" in file_contents)
 
     def tearDown(self) -> None:
         super().tearDown()

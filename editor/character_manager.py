@@ -1,7 +1,7 @@
 from shared.types.Character import Character
 
 
-characters = []
+characters = {}
 
 
 def get_characters():
@@ -9,4 +9,4 @@ def get_characters():
 
 
 def add_character(character: Character):
-    characters.append(character)
+    characters[character.name] = character

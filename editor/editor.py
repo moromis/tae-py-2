@@ -1,6 +1,7 @@
 from prompt_toolkit import PromptSession
 from const import STOP_CODE
 from editor.character import create_character
+from editor.object import create_object
 from editor.room import create_room
 from shared import file_io
 from shared.file_io import select_folder, write_game_data
@@ -39,7 +40,7 @@ editor_structure = {
     MAIN: {
         "Create a character": create_character(filepath),
         "Create a room": create_room(filepath),
-        "Create an object": noop,
+        "Create an object": create_object(filepath),
         "Play/test the game": noop,
         GO_BACK: STOP_CODE,
     },

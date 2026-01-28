@@ -19,7 +19,7 @@ class Character(Writeable):
         self.responses = responses
 
     def __str__(self) -> str:
-        """Provides a string representation for the object."""
+        """Provides a string representation for the character."""
         room_s = f"in {self.room.name}" if self.room else ""
         return f"({self.name}){room_s}"
 
@@ -37,38 +37,6 @@ class Character(Writeable):
                 else None
             ),
         }
-
-    # @property
-    # def name(self):
-    #     return self.name
-
-    # @property
-    # def desc(self):
-    #     return self.desc
-
-    # @property
-    # def room(self):
-    #     return self.room
-
-    # @property
-    # def responses(self):
-    #     return self.responses
-
-    # @name.setter
-    # def name(self, val):
-    #     self.name = val
-
-    # @desc.setter
-    # def desc(self, val):
-    #     self.desc = val
-
-    # @room.setter
-    # def room(self, val):
-    #     self.room = val
-
-    # @responses.setter
-    # def responses(self, val):
-    #     self.responses = val
 
     def add_response(self, topic: str, response: str | list[str], condition):
         if not self.responses:

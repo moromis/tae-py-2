@@ -36,4 +36,4 @@ def create_room(filepath: str):
 
         write_game_data(filepath)
 
-    return create_room
+    return _create_room

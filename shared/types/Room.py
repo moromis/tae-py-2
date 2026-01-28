@@ -4,7 +4,7 @@ from shared.types.Writeable import Writeable
 class Room(Writeable):
     """A custom type to represent a room"""
 
-    def __init__(self, name: str, desc: str, x: float, y: float):
+    def __init__(self, name: str, desc: str, x: float = -1, y: float = -1):
         self.name = name
         self.desc = desc
         self.x = x

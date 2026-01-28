@@ -1,0 +1,17 @@
+import unittest
+
+from editor import room_manager
+from shared.types.Room import Room
+
+TEST_ROOM = Room("test", "test-desc")
+
+
+class TestRoomManager(unittest.TestCase):
+    def test_add_room(self):
+        room_manager.add_room(TEST_ROOM)
+        self.assertEqual(len(room_manager.rooms), 1)
+
+    def test_get_rooms(self):
+        room_manager.add_room(TEST_ROOM)
+        rooms = room_manager.get_rooms()
+        self.assertEqual(len(rooms), 1)
