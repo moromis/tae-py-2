@@ -1,11 +1,9 @@
 from prompt_toolkit import PromptSession, choice
 
 from editor import object_manager, room_manager
-from shared import ReplResult, Object
-from shared.file_io import write_game_data
-from shared.fprint import fprint
-from shared.prompt import prompt
-from shared.yes_no import yes_no
+from core import ReplResult, Object
+from core.file_io import write_game_data
+from core import fprint, prompt, yes_no
 
 
 def create_object():

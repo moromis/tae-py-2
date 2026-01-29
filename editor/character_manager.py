@@ -1,4 +1,4 @@
-from shared import Writeable, Character
+from core import Writeable, Character
 
 
 characters: dict[str, Character] = {}

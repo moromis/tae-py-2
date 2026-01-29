@@ -4,12 +4,11 @@ from editor import character_manager, object_manager, room_manager
 from editor.character import create_character, view_characters
 from editor.object import create_object
 from editor.room import create_room
-from shared import meta_manager
-from shared.meta_manager import set_meta, set_meta_by_key, META_KEYS
-from shared.file_io import select_file, write_game_data
-from shared.prompt import prompt
-from shared.repl import REPL, repl_noop
-from shared.types.ReplResult import ReplResult
+from core import meta_manager, prompt
+from core.meta_manager import set_meta, set_meta_by_key, META_KEYS
+from core.file_io import select_file, write_game_data
+from core.repl import REPL, repl_noop
+from core.types.ReplResult import ReplResult
 from strings import GO_BACK
 import os
 

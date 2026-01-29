@@ -1,4 +1,4 @@
-from shared.split import split_by_and, split_by_dot
+from core import split_by_and, split_by_dot
 import unittest
 
 

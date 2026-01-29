@@ -1,8 +1,7 @@
 import prompt_toolkit
 from const import GO_BACK_CODE, STOP_CODE
-from shared import cls
-from shared.fprint import fprint
-from shared.types.ReplResult import ReplResult
+from core import cls, fprint
+from core.types.ReplResult import ReplResult
 from strings import BASE_PATH
 
 ResultType = ReplResult | object | str | None

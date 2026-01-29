@@ -1,14 +1,13 @@
 import json
 import os
-import io
 
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import askdirectory
 
 from editor import character_manager, object_manager, room_manager
-from shared import meta_manager
-from shared.types.Writeable import Writeable
+from core import meta_manager
+from core.types.Writeable import Writeable
 
 
 # https://stackoverflow.com/questions/50860640/ask-a-user-to-select-folder-to-read-the-files-in-python

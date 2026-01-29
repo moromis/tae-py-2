@@ -1,6 +1,6 @@
 import unittest
 
-from shared.types.Character import Character
+from core.types.Character import Character
 
 TEST_NAME = "test"
 TEST_DESC = "test-desc"

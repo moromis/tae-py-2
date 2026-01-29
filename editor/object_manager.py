@@ -1,4 +1,4 @@
-from shared import Writeable, Object
+from core import Writeable, Object
 
 
 objects: dict[str, Object] = {}

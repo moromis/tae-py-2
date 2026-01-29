@@ -1,15 +1,14 @@
 import unittest
 import os
-from pathlib import Path
 import json
 
-from shared import meta_manager
-from shared.file_io import (
+from core import meta_manager
+from core.file_io import (
     create_json_file_if_not_exists,
     write_data_json,
     write_game_data,
 )
-from shared.types.Character import Character
+from core.types.Character import Character
 
 TEST_FILENAME = "test"
 TEST_DATA = {"test": "testing-data"}

@@ -1,5 +1,5 @@
-from shared.types.Room import Room
-from shared.types.Writeable import Writeable
+from core.types.Room import Room
+from core.types.Writeable import Writeable
 
 
 class Object(Writeable):

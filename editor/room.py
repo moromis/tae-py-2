@@ -2,9 +2,8 @@ from prompt_toolkit import PromptSession, choice
 
 from editor import room_manager
 from editor.shared.directions import DIRECTIONS
-from shared import meta_manager, ReplResult, Room
-from shared.file_io import write_game_data
-from shared.prompt import prompt
+from core import ReplResult, Room, prompt
+from core.file_io import write_game_data
 from prompt_toolkit.shortcuts import checkboxlist_dialog
 
 

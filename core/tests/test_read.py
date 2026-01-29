@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 from prompt_toolkit import PromptSession
 
-from shared.prompt import prompt
+from core import prompt
 
 
 class TestAsk(unittest.TestCase):

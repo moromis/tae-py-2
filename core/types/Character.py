@@ -1,6 +1,6 @@
-from shared.types.Response import Response
-from shared.types.Room import Room
-from shared.types.Writeable import Writeable
+from core.types.Response import Response
+from core.types.Room import Room
+from core.types.Writeable import Writeable
 
 
 class Character(Writeable):

@@ -1,11 +1,9 @@
 from prompt_toolkit import PromptSession, choice
 from editor import character_manager, room_manager
-from shared.fprint import fprint
-from shared.prompt import prompt
-from shared.types.ReplResult import ReplResult
-from shared.types.Character import Character
-from shared.file_io import write_game_data
-from shared.yes_no import yes_no
+from core import fprint, prompt, yes_no
+from core.types.ReplResult import ReplResult
+from core.types.Character import Character
+from core.file_io import write_game_data
 
 
 def create_character():

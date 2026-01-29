@@ -1,9 +1,7 @@
 import sys
 from editor.editor import main_loop as main_editor_loop
-from shared import cls, prompt
-from shared.fprint import fprint
-from shared.repl import REPL, repl_noop
-from shared.types.ReplResult import ReplResult
+from core import cls, fprint
+from core.repl import REPL, repl_noop
 from strings import SHUTDOWN, STARTUP, WHICH_APP
 
 

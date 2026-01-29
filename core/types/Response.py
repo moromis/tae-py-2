@@ -1,4 +1,4 @@
-from shared.types.Writeable import Writeable
+from core.types.Writeable import Writeable
 
 
 class Response(Writeable):

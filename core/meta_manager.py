@@ -1,5 +1,5 @@
 from enum import Enum
-from shared.fprint import fprint
+from core.helpers.fprint import fprint
 from strings import NONE
 
 

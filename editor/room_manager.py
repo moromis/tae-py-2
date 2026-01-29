@@ -1,4 +1,4 @@
-from shared import Writeable, Room
+from core import Writeable, Room
 
 rooms: dict[str, Room] = {}
 
