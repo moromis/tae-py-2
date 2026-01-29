@@ -57,8 +57,9 @@ def character_responses():
     return responses
 
 
+# TODO: change to choice, allow editing of characters
 def view_characters():
     characters = character_manager.get_characters()
     for c in characters.keys():
-        fprint(f"- {c}\n")
+        fprint(f"- {c}")
     input("Press any key to continue...")
