@@ -2,7 +2,7 @@ import unittest
 import os
 import json
 
-from core import meta_manager
+from core.managers import meta_manager
 from core.file_io import (
     create_json_file_if_not_exists,
     write_data_json,
@@ -57,6 +57,7 @@ class TestFileIO(unittest.TestCase):
             file_contents = json.load(file)
             self.assertDictEqual(file_contents, test_character.to_dict())
 
+    # NOTE: integration test, otherwise could mock all the managers... probably would want a fixture for that
     def test_write_game_data(self):
         meta_manager.set_meta_by_key(meta_manager.META_KEYS.FILEPATH, TEST_FILENAME)
         write_game_data()

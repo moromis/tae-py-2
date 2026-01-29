@@ -1,6 +1,6 @@
 import unittest
 
-from editor import room_manager
+from core.managers import room_manager
 from core.types.Room import Room
 
 TEST_ROOM = Room("test", "test-desc")

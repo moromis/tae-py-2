@@ -1,8 +1,5 @@
 import unittest
 from mock import patch
-from unittest.mock import MagicMock
-
-from prompt_toolkit import PromptSession
 
 from core import prompt
 
