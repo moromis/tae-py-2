@@ -1,1 +1,2 @@
 STOP_CODE = "_STOP_"
+GO_BACK_CODE = "_GO_BACK_"

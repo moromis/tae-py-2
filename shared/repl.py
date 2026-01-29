@@ -1,53 +1,96 @@
-from prompt_toolkit import PromptSession, print_formatted_text
 import prompt_toolkit
-from const import STOP_CODE
-from shared import cls, get_from_path
-from shared.go_back_path import go_back_path
-from shared.prompt import prompt
-from strings import PROMPT_CHAR
+from const import GO_BACK_CODE, STOP_CODE
+from shared import cls
+from shared.fprint import fprint
+from shared.types.ReplResult import ReplResult
+from strings import BASE_PATH
+
+ResultType = ReplResult | object | str | None
+
+
+def repl_noop():
+    return ReplResult(clear=True)
+
+
+class REPLRouter:
+    def __init__(self, structure) -> None:
+        self.history_stack = [BASE_PATH]
+        self.structure = structure
+
+    def peek(self, idx=1):
+        return self.history_stack[-idx]
+
+    def push(self, new_index):
+        self.history_stack.append(new_index)
+
+    def pop(self, num_times=1):
+        popped = []
+        for n in range(num_times):
+            popped.append(self.history_stack.pop())
+
+    def clear(self):
+        self.history_stack = []
+
+    def traverse_history(self):
+        current_pointer = self.structure
+        for index in self.history_stack:
+            current_pointer = current_pointer[index]
+        return current_pointer
 
 
 class REPL:
-    def __init__(self, structure) -> None:
-        session = PromptSession(message=PROMPT_CHAR)
+    def __init__(self, structure, pins=[]) -> None:
+        self.router = REPLRouter(structure)
         self.structure = structure
-        self.session = session
-        self.keep_running = True
+        self.running = True
+        self.pinned = pins
 
-    def run(self):
-        # location in structure
-        location = ""
+    # for printing messages after a cls
+    # think of it like toasts. Remove from the end
+    # of the stack as needed/once done presenting the message
+    def print_pinned(self):
+        for p in self.pinned:
+            if callable(p):
+                p()
+            else:
+                fprint(p, bold=True)
+
+    def run(self, entrypoint=BASE_PATH):
+
+        if entrypoint:
+            self.router.clear()
+            self.router.push(entrypoint)
 
         cls()
 
-        while self.keep_running:
+        while self.running:
+            self.print_pinned()
             try:
-                current = get_from_path(location, self.structure)
-                next = ""
-                back = False
-                res = None
-                if current is STOP_CODE:
+                pointer = self.router.traverse_history()
+
+                result: ResultType = None
+
+                if pointer is STOP_CODE:
                     self.stop()
                     break
-                if isinstance(current, str):
-                    res = prompt(self.session, current)
-                elif callable(current):
-                    res = current(self.session)
-                elif isinstance(current, dict):
-                    res = self._prompt_options(location, current)
-                if not res:
-                    back = True
-                elif isinstance(res, tuple):
-                    next = str(res[0])
-                    back = bool(res[1])
+                elif pointer is GO_BACK_CODE:
+                    self.router.pop(2)
+                    continue
+                elif callable(pointer):
+                    result = pointer()
+                elif isinstance(pointer, dict):
+                    result = self._prompt_options(self.router.peek(1), pointer)
+
+                if isinstance(result, ReplResult):
+                    if result.clear:
+                        self.router.clear()
+                    elif result.replace:
+                        self.router.pop()
+
+                    if result.path:
+                        self.router.push(result.path)
                 else:
-                    next = str(res)
-                if back and location != "":
-                    location = go_back_path(location)
-                elif not back:
-                    location = location + "." + str(next)
-                else:
-                    location = str(next)
+                    self.router.pop()
             except (EOFError, KeyboardInterrupt):
                 self.stop()
                 break
@@ -57,13 +100,23 @@ class REPL:
                 break
 
     def stop(self):
-        self.keep_running = False
+        self.running = False
 
-    def _prompt_options(self, message: str, options: dict) -> str:
+    def _prompt_options(self, message: str, options: dict) -> ReplResult:
         cls()
+        self.print_pinned()
+
         labeled_options = [(o, o) for o in list(options.keys())]
-        chosen = prompt_toolkit.choice(
-            message, options=labeled_options, mouse_support=True, enable_interrupt=True
-        )
+
+        # get the user's choice
+        try:
+            chosen = prompt_toolkit.choice(
+                message,
+                options=labeled_options,
+                mouse_support=True,
+                enable_interrupt=True,
+            )
+        except (EOFError, KeyboardInterrupt):
+            return ReplResult(path=BASE_PATH, replace=True)
         cls()
-        return chosen
+        return ReplResult(path=chosen)

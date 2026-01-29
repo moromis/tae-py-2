@@ -9,20 +9,16 @@ class Object(Writeable):
         self,
         name: str,
         desc: str,
-        room: Room | None = None,
     ):
         self.name = name
         self.desc = desc
-        self.room = room
 
     def __str__(self) -> str:
         """Provides a string representation for the object."""
-        room_s = f"in {self.room.name}" if self.room else ""
-        return f"({self.name}){room_s}"
+        return self.desc
 
     def to_dict(self):
         return {
             "name": self.name,
             "desc": self.desc,
-            "room": self.room.to_dict() if self.room else None,
         }

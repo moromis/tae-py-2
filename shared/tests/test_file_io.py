@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import json
 
+from shared import meta_manager
 from shared.file_io import (
     create_json_file_if_not_exists,
     write_data_json,
@@ -58,7 +59,8 @@ class TestFileIO(unittest.TestCase):
             self.assertDictEqual(file_contents, test_character.to_dict())
 
     def test_write_game_data(self):
-        write_game_data(TEST_FILENAME)
+        meta_manager.set_meta_by_key(meta_manager.META_KEYS.FILEPATH, TEST_FILENAME)
+        write_game_data()
         # the file should have the correct contents
         with open(f"{TEST_FILENAME}.json", "r") as file:
             file_contents = json.load(file)

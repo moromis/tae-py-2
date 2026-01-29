@@ -10,24 +10,20 @@ class Character(Writeable):
         self,
         name: str,
         desc: str,
-        room: Room | None = None,
         responses: dict[str, Response] | None = None,
     ):
         self.name = name
         self.desc = desc
-        self.room = room
         self.responses = responses
 
     def __str__(self) -> str:
         """Provides a string representation for the character."""
-        room_s = f"in {self.room.name}" if self.room else ""
-        return f"({self.name}){room_s}"
+        return f"{self.name}\n{self.desc}"
 
     def to_dict(self):
         return {
             "name": self.name,
             "desc": self.desc,
-            "room": self.room.to_dict() if self.room else None,
             "responses": (
                 {
                     t: r.to_dict() if isinstance(r, Writeable) else r

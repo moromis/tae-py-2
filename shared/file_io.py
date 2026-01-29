@@ -7,6 +7,7 @@ from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import askdirectory
 
 from editor import character_manager, object_manager, room_manager
+from shared import meta_manager
 from shared.types.Writeable import Writeable
 
 
@@ -25,20 +26,25 @@ def select_file() -> str:
     return filename
 
 
-def write_game_data(filepath):
+def write_game_data():
+    meta = meta_manager.get_meta()
+    filepath = meta_manager.get_meta_by_key(meta_manager.META_KEYS.FILEPATH)
     create_json_file_if_not_exists(filepath)
-    rooms = room_manager.get_rooms()
-    characters = character_manager.get_characters()
-    objects = object_manager.get_objects()
-    add_key_to_json_file(filepath, "rooms", rooms)
-    add_key_to_json_file(filepath, "characters", characters)
-    add_key_to_json_file(filepath, "objects", objects)
+    rooms = room_manager.get_rooms_json()
+    characters = character_manager.get_characters_json()
+    objects = object_manager.get_objects_json()
+    game_json = form_game_json(meta, rooms, characters, objects)
+    write_data_json(filepath, game_json)
 
 
 def create_json_file_if_not_exists(filename):
     if not os.path.exists(filename):
         with open(f"{filename}.json", "w") as file:
             file.write("{}")
+
+
+def form_game_json(meta, rooms, characters, objects):
+    return {"meta": meta, "rooms": rooms, "characters": characters, "objects": objects}
 
 
 def add_key_to_json_file(filename, key, data):
@@ -49,7 +55,7 @@ def add_key_to_json_file(filename, key, data):
         with open(f"{filename}.json", "r") as file:
             file_contents = json.load(file)
             file_contents[key] = data
-        with open(f"{filename}.json", "w+") as file:
+        with open(f"{filename}.json", "w") as file:
             json.dump(file_contents, file)
     except FileNotFoundError:
         print(f"Error: The file {filename} was not found.")
@@ -58,7 +64,7 @@ def add_key_to_json_file(filename, key, data):
 
 
 def write_data_json(filename, data):
-    with open(f"{filename}.json", "a") as f:
+    with open(f"{filename}.json", "w") as f:
         if isinstance(data, Writeable):
             data = data.to_dict()
         json.dump(data, f)

@@ -1,0 +1,5 @@
+- Implement player app
+- Implement response conditions
+- ~~Add adjacencies to rooms~~
+- Implement game preview/save/resume in editor
+- Fix go back in menus
