@@ -1,11 +1,11 @@
 import json
 from const import GO_BACK_CODE, STOP_CODE
-from editor import character_manager, object_manager, room_manager
+from core.managers import character_manager, object_manager, room_manager
 from editor.character import create_character, view_characters
 from editor.object import create_object
 from editor.room import create_room
-from core import meta_manager, prompt
-from core.meta_manager import set_meta, set_meta_by_key, META_KEYS
+from core import prompt
+from core.managers.meta_manager import set_meta, set_meta_by_key, META_KEYS, print_title
 from core.file_io import select_file, write_game_data
 from core.repl import REPL, repl_noop
 from core.types.ReplResult import ReplResult
@@ -62,7 +62,7 @@ def load_game():
         _set_or_default(character_manager.set_characters, file_contents, "characters")
         _set_or_default(object_manager.set_objects, file_contents, "objects")
         _set_or_default(
-            meta_manager.set_meta,
+            set_meta,
             file_contents,
             "meta",
             {META_KEYS.TITLE.value: "NULL", META_KEYS.FILEPATH.value: filepath},
@@ -118,5 +118,5 @@ editor_structure = {
 
 # main loop
 def main_loop():
-    repl = REPL(editor_structure, pins=[meta_manager.print_title])
+    repl = REPL(editor_structure, pins=[print_title])
     repl.run(GAME)

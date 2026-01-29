@@ -1,6 +1,6 @@
-from prompt_toolkit import PromptSession, choice
+from prompt_toolkit import choice
 
-from editor import room_manager
+from core.managers import room_manager
 from editor.shared.directions import DIRECTIONS
 from core import ReplResult, Room, prompt
 from core.file_io import write_game_data

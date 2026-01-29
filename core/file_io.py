@@ -5,8 +5,7 @@ from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import askdirectory
 
-from editor import character_manager, object_manager, room_manager
-from core import meta_manager
+from core.managers import character_manager, object_manager, room_manager, meta_manager
 from core.types.Writeable import Writeable
 
 

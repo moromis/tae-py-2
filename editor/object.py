@@ -1,6 +1,6 @@
-from prompt_toolkit import PromptSession, choice
+from prompt_toolkit import choice
 
-from editor import object_manager, room_manager
+from core.managers import object_manager, room_manager
 from core import ReplResult, Object
 from core.file_io import write_game_data
 from core import fprint, prompt, yes_no

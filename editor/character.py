@@ -1,5 +1,5 @@
-from prompt_toolkit import PromptSession, choice
-from editor import character_manager, room_manager
+from prompt_toolkit import choice
+from core.managers import character_manager, room_manager
 from core import fprint, prompt, yes_no
 from core.types.ReplResult import ReplResult
 from core.types.Character import Character
