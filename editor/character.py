@@ -59,7 +59,6 @@ def character_responses():
 
 def view_characters():
     characters = character_manager.get_characters()
-    if len(characters) > 0:
-        fprint("- ")
-    fprint("\n- ".join(characters.keys()))
+    for c in characters.keys():
+        fprint(f"- {c}\n")
     input("Press any key to continue...")

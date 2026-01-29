@@ -1,5 +1,6 @@
 from enum import Enum
 from shared.fprint import fprint
+from strings import NONE
 
 
 class META_KEYS(Enum):
@@ -7,15 +8,15 @@ class META_KEYS(Enum):
     FILEPATH = "filepath"
 
 
-meta: dict[str, str] = {META_KEYS.TITLE.value: "No game loaded"}
+meta: dict[str, str] = {META_KEYS.TITLE.value: NONE}
 
 
 def print_title():
     global meta
-    if meta[META_KEYS.TITLE.value]:
+    if META_KEYS.TITLE.value in meta:
         fprint(f"Selected Game: {meta[META_KEYS.TITLE.value]}\n", bold=True)
     else:
-        fprint("No title found", bold=True)
+        fprint(f"Selected Game: {NONE}\n", bold=True)
 
 
 def set_meta(new_meta):

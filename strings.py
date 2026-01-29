@@ -1,7 +1,10 @@
+TAE = "Text Adventure Engine"
 PROMPT_CHAR = "> "
 BASE_PATH = ""
+NONE = "NONE"
 
-STARTUP = "Welcome to the Text Adventure Engine editor\n"
+STARTUP = f"Welcome to the {TAE} editor!\n"
+SHUTDOWN = f"Thanks for using the {TAE}!\n"
 WHICH_APP = "What program do you want to use?"
 WHAT_TO_DO = "What would you like to do?"
 GO_BACK = "Go back"
