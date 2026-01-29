@@ -4,11 +4,18 @@
 ## Getting Started
 
 ```
-python -m venv venv
-source venv/bin/activate
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
 ## Running the App
 
 `python main.py`
+
+## Running Tests
+
+`python -m unittest`
+
+## Generating Test Coverage
+`coverage run -m unittest discover`

@@ -1,5 +1,6 @@
 # Python venv
 .venv
+venv
 
 # Mac files
 .DS_Store
@@ -36,6 +37,7 @@ pip-delete-this-directory.txt
 .cache
 nosetests.xml
 coverage.xml
+htmlcov
 
 # Translations
 *.mo

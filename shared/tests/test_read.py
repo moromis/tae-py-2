@@ -9,9 +9,8 @@ from shared.prompt import prompt
 
 class TestAsk(unittest.TestCase):
 
-    def test_print_list(self):
-        session = PromptSession()
-        session.prompt = MagicMock(return_value="test")
-        result = prompt(session=session)
-        self.assertGreaterEqual(session.prompt.call_count, 1)
+    @patch("prompt_toolkit.PromptSession.prompt", return_value="test")
+    def test_print_list(self, promptsession_mock):
+        result = prompt()
+        self.assertGreaterEqual(promptsession_mock.call_count, 1)
         self.assertEqual(result, "test")
