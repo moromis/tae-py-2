@@ -2,13 +2,19 @@ from enum import Enum
 from core.helpers.fprint import fprint
 from strings import NONE
 
+SCHEMA_VERSION = "0.0.1"
+
 
 class META_KEYS(Enum):
     TITLE = "title"
     FILEPATH = "filepath"
+    SCHEMA = "schema"
 
 
-meta: dict[str, str] = {META_KEYS.TITLE.value: NONE}
+meta: dict[str, str] = {
+    META_KEYS.TITLE.value: NONE,
+    META_KEYS.SCHEMA.value: SCHEMA_VERSION,
+}
 
 
 def print_title():

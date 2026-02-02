@@ -18,6 +18,15 @@ def get_rooms_json():
     return {n: r.to_dict() if isinstance(r, Writeable) else r for n, r in rooms.items()}
 
 
+def get_entrance_room():
+    global rooms
+    for name, room in rooms.items():
+        if room["is_entrance"]:
+            return room
+
+    return rooms[list(rooms.keys())[0]]
+
+
 def set_rooms(new_rooms: dict[str, Room]) -> None:
     global rooms
     rooms = new_rooms

@@ -24,3 +24,11 @@ def get_objects_json():
 def set_objects(new_objects: dict[str, Object]) -> None:
     global objects
     objects = new_objects
+
+
+def get_object_by_name(obj_name: str) -> Object | None:
+    global objects
+    obj_name = obj_name.lower()
+    for k, v in objects.items():
+        if k == obj_name or "adjective" in v and f"{v["adjective"]} {k}" == obj_name:
+            return v

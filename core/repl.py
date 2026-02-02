@@ -43,6 +43,7 @@ class REPL:
         self.structure = structure
         self.running = True
         self.pinned = pins
+        self.entrypoint = BASE_PATH
 
     # for printing messages after a cls
     # think of it like toasts. Remove from the end
@@ -56,7 +57,8 @@ class REPL:
 
     def run(self, entrypoint=BASE_PATH):
 
-        if entrypoint:
+        if entrypoint != BASE_PATH:
+            self.entrypoint = entrypoint
             self.router.clear()
             self.router.push(entrypoint)
 
@@ -116,6 +118,6 @@ class REPL:
                 enable_interrupt=True,
             )
         except (EOFError, KeyboardInterrupt):
-            return ReplResult(path=BASE_PATH, replace=True)
+            return ReplResult(path=self.entrypoint, replace=True)
         cls()
         return ReplResult(path=chosen)
