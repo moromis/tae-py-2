@@ -1,10 +1,11 @@
+from core import logger
 from core.gamestate import load_game
 from core.helpers.fprint import fprint
 from core.helpers.prompt import prompt
 from core.managers.room_manager import get_entrance_room
 from core.repl import REPL
 from parser.parser import Parser
-from strings import GAME_LOAD_FAILED, GAME_LOADED, GAME_SAVED, WHAT_TO_DO
+from strings import GAME_LOAD_FAILED, GAME_LOADED, GAME_SAVED, PROMPT_CHAR, WHAT_TO_DO
 
 MAIN = "Welcome to the TAE Player"
 LOAD_GAME = "Load a game"
