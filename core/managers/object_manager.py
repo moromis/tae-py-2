@@ -26,9 +26,20 @@ def set_objects(new_objects: dict[str, Object]) -> None:
     objects = new_objects
 
 
+def set_objects_json(new_objects: dict[str, dict | Object]) -> None:
+    global objects
+    sanitized_objects = {}
+    for n, o in new_objects.items():
+        if not isinstance(o, Object):
+            obj = Object(n)
+            obj.from_dict(o)
+            sanitized_objects[n] = obj
+    objects = sanitized_objects
+
+
 def get_object_by_name(obj_name: str) -> Object | None:
     global objects
     obj_name = obj_name.lower()
     for k, v in objects.items():
-        if k == obj_name or "adjective" in v and f"{v["adjective"]} {k}" == obj_name:
+        if k == obj_name or "adjective" in v and f"{v.adjective} {k}" == obj_name:
             return v

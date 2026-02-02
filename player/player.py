@@ -1,5 +1,6 @@
 from core import logger
 from core.gamestate import load_game
+from core.helpers.cls import cls
 from core.helpers.fprint import fprint
 from core.helpers.prompt import prompt
 from core.managers.room_manager import get_entrance_room
@@ -42,11 +43,22 @@ class Player:
 
     def play_game(self):
         room = get_entrance_room()
+        cls()
         while True:
-            fprint(room["name"], bold=True)
-            fprint(room["desc"])
+            fprint(room.name, bold=True)
+            fprint(room.desc)
+            if len(room.objects):
+                fprint("Here there is:")
+                for o in room.objects:
+                    fprint(o)
+            if len(room.characters):
+                fprint("People here:")
+                for c in room.characters:
+                    fprint(c)
             command = prompt(WHAT_TO_DO)
+            cls()
             fprint(self.parser.parse(command))
+            fprint("\n")
 
     def run(self):
         self.repl.run(MAIN)

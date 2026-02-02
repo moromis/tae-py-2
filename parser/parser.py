@@ -1,9 +1,12 @@
+from http.client import GONE
+from logging import log
+from core import logger
 from core.managers.object_manager import get_object_by_name
 from core.types.Object import Object
-from parser import verbs
+from parser.verbs import verbs
 from parser.history import History
 from parser.types.Verb import Verb
-from strings import DEFAULT_VERB_RESPONSE
+from strings import DEFAULT_VERB_RESPONSE, GONE_WRONG
 
 
 class Parser:
@@ -21,38 +24,44 @@ class Parser:
         verb_name, verb_obj, rest = self.get_verb(split)
         object, rest = self.get_object(rest)
         indirect_object = self.get_indirect_object(rest)
-
-        if indirect_object:
-            handled = indirect_object.handle_command(verb_name, object)
-            if not handled and object:
+        try:
+            if indirect_object:
+                handled = indirect_object.handle_command(verb_name, object)
+                if not handled and object:
+                    handled = object.handle_command(verb_name)
+                    if not handled:
+                        return verb_obj.handle_command(
+                            object.name, indirect_object.name
+                        )
+                    else:
+                        return str(handled)
+                else:
+                    return str(handled)
+            elif object:
                 handled = object.handle_command(verb_name)
                 if not handled:
-                    return verb_obj.handle_command(object.name, indirect_object.name)
+                    return verb_obj.handle_command(object.name)
                 else:
                     return str(handled)
             else:
-                return str(handled)
-        elif object:
-            handled = object.handle_command(verb_name)
-            if not handled:
-                return verb_obj.handle_command(object.name)
-            else:
-                return str(handled)
-        else:
-            return verb_obj.handle_command()
+                return verb_obj.handle_command()
+        except Exception as e:
+            logger.log(str(e))
+            log(3, e)
+        return GONE_WRONG
 
     def get_verb(self, command: list[str]) -> tuple[str, Verb, list[str]]:
         for i, s in enumerate(command):
             verb_name, verb = verbs.find_verb(s)
             if verb:
-                return verb_name, verb, command[i:]
+                return verb_name, verb, command[i + 1 :]
         return DEFAULT_VERB_RESPONSE, verbs.NO_RESPONSE_VERB, []
 
     def get_object(self, command: list[str]) -> tuple[Object | None, list[str]]:
         for i, s in enumerate(command):
             found = get_object_by_name(s)
             if found:
-                return found, command[i:]
+                return found, command[i + 1 :]
 
         return None, []
 

@@ -9,7 +9,7 @@ class Character(Writeable):
     def __init__(
         self,
         name: str,
-        desc: str,
+        desc: str = "",
         responses: dict[str, Response] | None = None,
     ):
         self.name = name
@@ -33,6 +33,10 @@ class Character(Writeable):
                 else None
             ),
         }
+
+    def from_dict(self, d: dict):
+        for k, v in d.items():
+            setattr(self, k, v)
 
     def add_response(self, topic: str, response: str | list[str], condition):
         if not self.responses:

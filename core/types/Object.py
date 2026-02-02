@@ -8,7 +8,7 @@ class Object(Writeable):
     def __init__(
         self,
         name: str,
-        desc: str,
+        desc: str = "",
         adjective: str | None = None,
         handlers: dict[str, Callable] = {},
     ):
@@ -29,7 +29,12 @@ class Object(Writeable):
         return f"There is a {self.desc} here."
 
     def to_dict(self):
+        # TODO: write handlers... to python? game file could be zip folder w/ renamed extension
         return {"name": self.name, "desc": self.desc, "adjective": self.adjective}
+
+    def from_dict(self, d: dict):
+        for k, v in d.items():
+            setattr(self, k, v)
 
     def __getitem__(self, item):
         return self[item]

@@ -7,7 +7,7 @@ timestamp = datetime.now()
 
 
 # TODO: allow for choosing log files location
-def log(str):
+def log(str: str):
     global timestamp
     log_folder = "logs"
     filename = Path(log_folder, f"{timestamp}.log.txt")
