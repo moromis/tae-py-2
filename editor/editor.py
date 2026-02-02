@@ -1,5 +1,6 @@
 from const import GO_BACK_CODE, STOP_CODE
 from core.gamestate import load_game, unload_game
+from core.helpers.fprint import fprint
 from editor.character import create_character, view_characters
 from editor.object import create_object
 from editor.room import create_room
@@ -23,12 +24,13 @@ def new_game():
     title: str = prompt("What's the new game's title?")
     set_meta_by_key(META_KEYS.TITLE, title)
 
-    print("\n Select the folder to place the game's files in")
+    fprint("\n Select the folder to place the game's files in")
     filename = title.lower().replace(" ", "_")
     # folder = select_folder()
     # TODO: revert, uncomment above, delete below
     folder = "/Users/momo/Projects/tae-2026-test-games"
-    print(filename, folder)
+    fprint(filename)
+    fprint(folder)
     global filepath
     filepath = os.path.join(folder, filename)
     set_meta_by_key(META_KEYS.FILEPATH, filepath)

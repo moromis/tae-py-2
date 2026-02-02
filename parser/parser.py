@@ -16,7 +16,7 @@ class Parser:
     def split_to_words(self, command: str) -> list[str]:
         return command.split(" ")
 
-    def parse(self, command: str):
+    def parse(self, command: str) -> str:
         split = self.split_to_words(command)
         verb_name, verb_obj, rest = self.get_verb(split)
         object, rest = self.get_object(rest)
@@ -27,13 +27,19 @@ class Parser:
             if not handled and object:
                 handled = object.handle_command(verb_name)
                 if not handled:
-                    verb_obj.handle_command(object.name, indirect_object.name)
+                    return verb_obj.handle_command(object.name, indirect_object.name)
+                else:
+                    return str(handled)
+            else:
+                return str(handled)
         elif object:
             handled = object.handle_command(verb_name)
             if not handled:
-                verb_obj.handle_command(object.name)
+                return verb_obj.handle_command(object.name)
+            else:
+                return str(handled)
         else:
-            verb_obj.handle_command()
+            return verb_obj.handle_command()
 
     def get_verb(self, command: list[str]) -> tuple[str, Verb, list[str]]:
         for i, s in enumerate(command):

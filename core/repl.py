@@ -1,8 +1,8 @@
 import prompt_toolkit
 from const import GO_BACK_CODE, STOP_CODE
-from core import cls, fprint
+from core import cls, fprint, logger
 from core.types.ReplResult import ReplResult
-from strings import BASE_PATH
+from strings import BASE_PATH, PROMPT_CHAR
 
 ResultType = ReplResult | object | str | None
 
@@ -53,7 +53,7 @@ class REPL:
             if callable(p):
                 p()
             else:
-                fprint(p, bold=True)
+                fprint(p, bold=True, pinned=True)
 
     def run(self, entrypoint=BASE_PATH):
 
@@ -96,7 +96,7 @@ class REPL:
                 self.stop()
                 break
             except Exception as e:
-                print(f"An error occurred: {e}")
+                fprint(f"An error occurred: {e}")
                 self.stop()
                 break
 
@@ -117,6 +117,7 @@ class REPL:
                 mouse_support=True,
                 enable_interrupt=True,
             )
+            logger.log(f"{PROMPT_CHAR}{chosen}")
         except (EOFError, KeyboardInterrupt):
             return ReplResult(path=self.entrypoint, replace=True)
         cls()
