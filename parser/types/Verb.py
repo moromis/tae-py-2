@@ -1,7 +1,6 @@
 from typing import Callable
 
-from core.types.Character import Character
-from core.types.Object import Object
+from core.types.Writeable import Writeable
 from strings import DEFAULT_VERB_RESPONSE
 
 
@@ -29,9 +28,9 @@ class Verb:
     # their chance, so go ahead and do your thing
     def handle_command(
         self,
-        object: str | Object | Character | None = None,
-        indirect_object: str | Object | Character | None = None,
-    ):
+        object: str | Writeable | None = None,
+        indirect_object: str | Writeable | None = None,
+    ) -> str:
         if callable(self.default_response):
             if object and indirect_object:
                 return self.default_response(object, indirect_object)

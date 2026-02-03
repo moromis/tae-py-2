@@ -1,4 +1,3 @@
-from typing import Any
 from core.types.Writeable import Writeable
 
 
@@ -35,9 +34,9 @@ class Room(Writeable):
 
     # TODO: see if this can be automated... same with other types of course
     def to_dict(self):
+        base = super().to_dict()
         return {
-            "name": self.name,
-            "desc": self.desc,
+            **base,
             "adjacencies": self.adjacencies,
             "objects": self.objects,
             "characters": self.characters,
@@ -46,3 +45,6 @@ class Room(Writeable):
     def from_dict(self, d: dict):
         for k, v in d.items():
             setattr(self, k, v)
+
+    def handle_command(self, verb, object=None):
+        return self.desc

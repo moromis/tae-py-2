@@ -1,5 +1,7 @@
 # verbs, their synonyms, and their verb default behaviors
 
+import os
+from signal import Signals
 from core.confirm import confirm
 from core.types.Object import Object
 from parser.inventory import get_inventory_string
@@ -15,7 +17,7 @@ NO_RESPONSE_VERB = Verb(DEFAULT_VERB_RESPONSE)
 NO_OBJECT_VERBS = {
     "inventory": Verb(get_inventory_string),
     "save": Verb("save"),
-    "exit": Verb(lambda: confirm(lambda: exit(0))),
+    "exit": Verb(lambda: confirm(lambda: os.kill(os.getpid(), Signals.SIGINT))),
 }
 
 VERBS = {

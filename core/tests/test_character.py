@@ -13,3 +13,4 @@ class TestCharacter(unittest.TestCase):
         dict_character = test_character.to_dict()
         self.assertEqual(dict_character["name"], TEST_NAME)
         self.assertEqual(dict_character["desc"], TEST_DESC)
+        self.assertTrue(dict_character["is_character"])

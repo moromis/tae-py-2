@@ -9,6 +9,7 @@ from core.managers.meta_manager import set_meta_by_key, META_KEYS, print_title
 from core.file_io import write_game_data
 from core.repl import REPL, repl_noop
 from core.types.ReplResult import ReplResult
+from player import player
 from strings import GO_BACK
 import os
 
@@ -76,7 +77,7 @@ editor_structure = {
             "View/edit objects": repl_noop,
             GO_BACK: GO_BACK_CODE,
         },
-        "Play/test": repl_noop,
+        "Play/test": player.play,
         "Change game title": change_game_title,
         GO_BACK: exit_main,
     },

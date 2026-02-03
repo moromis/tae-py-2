@@ -65,7 +65,6 @@ class TestFileIO(unittest.TestCase):
         with open(f"{TEST_FILENAME}.json", "r") as file:
             file_contents = json.load(file)
             self.assertTrue("rooms" in file_contents)
-            self.assertTrue("characters" in file_contents)
             self.assertTrue("objects" in file_contents)
 
     def tearDown(self) -> None:

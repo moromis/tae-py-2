@@ -11,3 +11,12 @@ class Response(Writeable):
 
     def to_dict(self):
         return {"response": self.response, "condition": self.condition}
+
+    def from_dict(self, d):
+        self.response = d["response"]
+        self.condition = d["condition"]
+
+    def handle_command(
+        self, verb: str, object: Writeable | str | None = None
+    ) -> str | bool:
+        return False

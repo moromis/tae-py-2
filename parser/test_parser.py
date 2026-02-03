@@ -1,6 +1,7 @@
 import unittest
 
-from parser import parser
+from parser.parser import Parser
+from parser.types.Verb import Verb
 
 VERB = "hit"
 ADJECTIVE = "evil"
@@ -17,6 +18,8 @@ TEST_COMMANDS = {
 
 class TestParser(unittest.TestCase):
     def test_get_verb(self):
-        for c in TEST_COMMANDS.values():
-            verb = parser.get_verb(c)
-            self.assertEqual(verb, VERB)
+        parser = Parser()
+        verb_name, verb, command = parser.get_verb([VERB, OBJECT])
+        self.assertTrue(isinstance(verb, Verb))
+        self.assertEqual(verb_name, VERB)
+        self.assertEqual(command, [OBJECT])

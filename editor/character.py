@@ -1,6 +1,7 @@
 from prompt_toolkit import choice
-from core.managers import character_manager, room_manager
+from core.managers import room_manager
 from core import fprint, prompt, yes_no
+from core.managers.object_manager import Object_Manager
 from core.types.ReplResult import ReplResult
 from core.types.Character import Character
 from core.file_io import write_game_data
@@ -25,7 +26,7 @@ def create_character():
 
     new_character = Character(name, desc, responses)
 
-    character_manager.add_character(new_character)
+    Object_Manager.add(new_character)
     if room:
         room_manager.add_character_to_room(new_character.name, room.name)
     write_game_data()
@@ -55,9 +56,15 @@ def character_responses():
     return responses
 
 
+def is_character(o):
+    return o.is_character
+
+
 # TODO: change to choice, allow editing of characters
 def view_characters():
-    characters = character_manager.get_characters()
-    for c in characters.keys():
-        fprint(f"- {c}")
+    objects = Object_Manager.get_all_list()
+    characters = [o for o in objects if is_character(o)]
+
+    for c in characters:
+        fprint(f"- {c.name}")
     input("Press any key to continue...")
