@@ -8,6 +8,9 @@ current_room = None
 
 def add_room(room: Room) -> None:
     global rooms
+    global current_room
+    if len(rooms) == 0:
+        current_room = room
     rooms[room.name] = room
 
 
@@ -21,8 +24,24 @@ def get_rooms_json():
     return {n: r.to_dict() if isinstance(r, Writeable) else r for n, r in rooms.items()}
 
 
-def get_entrance_room():
+def set_entrance_room(room_name: str) -> None:
     global rooms
+    if not len(rooms):
+        return
+
+    # clear any other entrances -- there can only be one
+    for name, room in rooms.items():
+        if room.is_entrance and name != room_name:
+            room.is_entrance = False
+        elif name == room_name:
+            room.is_entrance = True
+
+
+def get_entrance_room() -> Room | None:
+    global rooms
+    if not len(rooms):
+        return None
+
     for name, room in rooms.items():
         if room.is_entrance:
             return room
@@ -75,3 +94,10 @@ def remove_object_from_room(obj_name: str, room_name: str) -> None:
 def add_character_to_room(character: str, room_name: str) -> None:
     global rooms
     rooms[room_name].add_character(character)
+
+
+def reset():
+    global rooms
+    global current_room
+    rooms = {}
+    current_room = None

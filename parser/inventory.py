@@ -20,6 +20,16 @@ def get_inventory():
     return inventory
 
 
+def has(obj_name):
+    global inventory
+    return obj_name in inventory
+
+
+def reset():
+    global inventory
+    inventory = []
+
+
 def get_inventory_string():
     global inventory
     inventory_string = NO_INVENTORY

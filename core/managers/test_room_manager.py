@@ -2,8 +2,7 @@ import unittest
 
 from core.managers import room_manager
 from core.types.Room import Room
-
-TEST_ROOM = Room("test", "test-desc")
+from testing.fixtures import TEST_ROOM
 
 
 class TestRoomManager(unittest.TestCase):
