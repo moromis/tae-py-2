@@ -91,6 +91,11 @@ def remove_object_from_room(obj_name: str, room_name: str) -> None:
     rooms[room_name].remove_object(obj_name)
 
 
+def get_object_from_room(obj_name: str, room_name: str) -> str | None:
+    global rooms
+    return rooms[room_name].get_object(obj_name)
+
+
 def add_character_to_room(character: str, room_name: str) -> None:
     global rooms
     rooms[room_name].add_character(character)

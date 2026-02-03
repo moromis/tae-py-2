@@ -22,6 +22,12 @@ class Room(Writeable):
         if obj in self.objects:
             self.objects.remove(obj)
 
+    def get_object(self, obj_name: str) -> str | None:
+        for obj in self.objects:
+            if obj == obj_name:
+                return obj
+        return None
+
     def add_character(self, character: str) -> None:
         self.characters.append(character)
 
