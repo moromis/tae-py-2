@@ -1,5 +1,6 @@
 from core import Writeable, Room
 
+
 # TODO: make class, DRY with other managers
 rooms: dict[str, Room] = {}
 current_room = None

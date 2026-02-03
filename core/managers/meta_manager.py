@@ -2,7 +2,7 @@ from enum import Enum
 from core.helpers.fprint import fprint
 from strings import NONE
 
-SCHEMA_VERSION = "0.0.1"
+SCHEMA_VERSION = "0.0.2"
 
 
 class META_KEYS(Enum):

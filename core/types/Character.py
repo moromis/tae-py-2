@@ -5,15 +5,19 @@ from core.types.Writeable import Writeable
 class Character(Writeable):
     """A custom type to represent a character"""
 
+    is_character = True
+
     def __init__(self, name: str, desc: str = "", responses: dict[str, Response] = {}):
         self.name = name
         self.desc = desc
         self.responses = responses
 
-    def handle_command(self, verb: str | None, topic: str | None = None) -> str | bool:
+    def handle_command(
+        self, verb: str | None, object: Writeable | str | None = None
+    ) -> str | bool:
         if verb == "talk":
-            if topic and topic in self.responses:
-                response = self.responses[topic].response
+            if object and isinstance(object, str) and object in self.responses:
+                response = self.responses[object].response
                 if isinstance(response, str):
                     return response
         return False
@@ -23,9 +27,9 @@ class Character(Writeable):
         return f"{self.name}\n{self.desc}"
 
     def to_dict(self):
+        base = super().to_dict()
         return {
-            "name": self.name,
-            "desc": self.desc,
+            **base,
             "responses": (
                 {
                     t: r.to_dict() if isinstance(r, Writeable) else r
@@ -34,6 +38,7 @@ class Character(Writeable):
                 if self.responses
                 else None
             ),
+            "is_character": self.is_character,
         }
 
     def from_dict(self, d: dict):
