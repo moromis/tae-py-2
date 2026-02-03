@@ -32,9 +32,7 @@ class Parser:
                 if not handled and object:
                     handled = object.handle_command(verb_name)
                     if not handled:
-                        return verb_obj.handle_command(
-                            object.name, indirect_object.name
-                        )
+                        return verb_obj.handle_command(object, indirect_object)
                     else:
                         return str(handled)
                 else:

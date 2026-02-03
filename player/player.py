@@ -26,6 +26,7 @@ PLAY_GAME = "Play the game"
 class Player:
     def __init__(self) -> None:
         self.loaded = False
+        self.new_room = True
         self.player_structure = {MAIN: {LOAD_GAME: self.load_game, GO_BACK: STOP_CODE}}
         self.player_structure_loaded = {
             MAIN: {
@@ -54,20 +55,22 @@ class Player:
         room = get_entrance_room()
         cls()
         while True:
-            fprint(room.name, bold=True)
-            fprint(room.desc)
-            newline()
-            if len(room.objects):
-                fprint("Here there is:")
-                for o in room.objects:
-                    fprint(o)
-            newline()
-            if len(room.characters):
-                fprint("People here:")
-                for c in room.characters:
-                    fprint(c)
-            newline()
-            command = prompt(WHAT_TO_DO)
+            if self.new_room:
+                fprint(room.name, bold=True)
+                fprint(room.desc)
+                newline()
+                if len(room.objects):
+                    fprint("Here there is:")
+                    for o in room.objects:
+                        fprint(o)
+                newline()
+                if len(room.characters):
+                    fprint("People here:")
+                    for c in room.characters:
+                        fprint(c)
+                self.new_room = False
+                newline()
+            command = prompt()
             cls()
             fprint(self.parser.parse(command))
             newline()

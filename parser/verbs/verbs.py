@@ -1,7 +1,11 @@
 # verbs, their synonyms, and their verb default behaviors
 
 from core.confirm import confirm
+from core.types.Object import Object
+from parser.inventory import get_inventory_string
 from parser.types.Verb import Verb
+from parser.verbs.drop import drop
+from parser.verbs.hit import hit
 from parser.verbs.look import look
 from parser.verbs.take import take
 from strings import DEFAULT_VERB_RESPONSE
@@ -9,7 +13,7 @@ from strings import DEFAULT_VERB_RESPONSE
 NO_RESPONSE_VERB = Verb(DEFAULT_VERB_RESPONSE)
 
 NO_OBJECT_VERBS = {
-    "inventory": Verb("You look at your inventory."),
+    "inventory": Verb(get_inventory_string),
     "save": Verb("save"),
     "exit": Verb(lambda: confirm(lambda: exit(0))),
 }
@@ -20,10 +24,10 @@ VERBS = {
         synonyms=["look at, inspect, examine"],
     ),
     "hit": Verb(
-        lambda obj: f"You hit the {obj.name if "name" in obj else obj} but it doesn't do anything.",
+        hit,
         synonyms=["whack", "thwack", "smack", "bop"],
     ),
-    "drop": Verb("Dropped."),
+    "drop": Verb(drop),
     "take": Verb(take, ["pick up", "grab"]),
     **NO_OBJECT_VERBS,
 }

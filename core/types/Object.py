@@ -1,4 +1,5 @@
 from typing import Callable
+from core.types.Character import Character
 from core.types.Writeable import Writeable
 
 
@@ -18,7 +19,7 @@ class Object(Writeable):
         self.handlers = handlers
 
     def handle_command(
-        self, verb: str | None, object: Object | None = None
+        self, verb: str | None, object: Object | Character | None = None
     ) -> str | bool:
         if verb in self.handlers:
             return self.handlers[verb](object)

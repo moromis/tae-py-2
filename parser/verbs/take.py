@@ -1,9 +1,11 @@
 from core.managers import room_manager
+from core.types.Object import Object
 from parser import inventory
 from strings import DONT_SEE_HERE, FLOATING_IN_SPACE
 
 
-def take(obj_name: str) -> str:
+def take(obj: Object) -> str:
+    obj_name = obj.name
     room = room_manager.get_current_room()
     if room:
         if room.has_object(obj_name):

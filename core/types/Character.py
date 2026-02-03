@@ -1,5 +1,4 @@
 from core.types.Response import Response
-from core.types.Room import Room
 from core.types.Writeable import Writeable
 
 
