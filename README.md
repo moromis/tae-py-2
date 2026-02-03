@@ -19,3 +19,6 @@ pip install -r requirements.txt
 
 ## Generating Test Coverage
 `coverage run -m unittest discover`
+
+## Write an HTML report of coverage (after generating test coverage)
+`coverage html`
