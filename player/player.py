@@ -1,10 +1,10 @@
 from const import STOP_CODE
-from core import logger
 from core.gamestate import load_game
 from core.helpers.cls import cls
 from core.helpers.fprint import fprint
 from core.helpers.newline import newline
 from core.helpers.prompt import prompt
+from core.managers import meta_manager
 from core.managers.room_manager import get_entrance_room
 from core.repl import REPL
 from parser.parser import Parser
@@ -13,8 +13,7 @@ from strings import (
     GAME_LOADED,
     GAME_SAVED,
     GO_BACK,
-    PROMPT_CHAR,
-    WHAT_TO_DO,
+    NO_GAME_LOADED,
 )
 
 MAIN = "Welcome to the TAE Player"
@@ -77,3 +76,11 @@ class Player:
 
     def run(self):
         self.repl.run(MAIN)
+
+
+# assuming we already have a game loaded, skip the loading and play the game
+def play():
+    if meta_manager.get_meta_by_key(meta_manager.META_KEYS.TITLE):
+        Player().play_game()
+    else:
+        return NO_GAME_LOADED

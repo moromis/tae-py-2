@@ -2,7 +2,7 @@ from http.client import GONE
 from logging import log
 from core import logger
 from core.managers.character_manager import get_character_by_name
-from core.managers.object_manager import get_object_by_name
+from core.managers.object_manager import Object_Manager
 from core.types.Character import Character
 from core.types.Object import Object
 from parser.verbs import verbs
@@ -61,7 +61,7 @@ class Parser:
         self, command: list[str]
     ) -> tuple[Object | Character | None, list[str]]:
         for i, s in enumerate(command):
-            found = get_object_by_name(s)
+            found = Object_Manager.get_by_name(s)
             if not found:
                 found = get_character_by_name(s)
             if found:
@@ -71,7 +71,7 @@ class Parser:
 
     def get_indirect_object(self, command: list[str]) -> Object | Character | None:
         for i, s in enumerate(command):
-            found = get_object_by_name(s)
+            found = Object_Manager.get_by_name(s)
             if not found:
                 found = get_character_by_name(s)
             if found:

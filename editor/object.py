@@ -1,9 +1,10 @@
 from prompt_toolkit import choice
 
-from core.managers import object_manager, room_manager
+from core.managers import room_manager
 from core import ReplResult, Object
 from core.file_io import write_game_data
 from core import fprint, prompt, yes_no
+from core.managers.object_manager import Object_Manager
 
 
 def create_object():
@@ -25,7 +26,7 @@ def create_object():
 
     new_object = Object(name, desc)
 
-    object_manager.add_object(new_object)
+    Object_Manager.add(new_object)
     if room:
         room_manager.add_object_to_room(new_object.name, room.name)
     write_game_data()

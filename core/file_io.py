@@ -6,7 +6,8 @@ from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import askdirectory
 
 from core.helpers.fprint import fprint
-from core.managers import character_manager, object_manager, room_manager, meta_manager
+from core.managers import character_manager, room_manager, meta_manager
+from core.managers.object_manager import Object_Manager
 from core.types.Writeable import Writeable
 
 
@@ -31,7 +32,7 @@ def write_game_data():
     create_json_file_if_not_exists(filepath)
     rooms = room_manager.get_rooms_json()
     characters = character_manager.get_characters_json()
-    objects = object_manager.get_objects_json()
+    objects = Object_Manager.get_all_json()
     game_json = form_game_json(meta, rooms, characters, objects)
     write_data_json(filepath, game_json)
 
