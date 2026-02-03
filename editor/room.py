@@ -33,7 +33,8 @@ def create_room():
                 if len(direction_choices) == 0:
                     break
 
-    new_room = Room(name, desc, adjacencies)
+    is_entrance = len(rooms) == 0
+    new_room = Room(name, desc, adjacencies, is_entrance=is_entrance)
     room_manager.add_room(new_room)
 
     write_game_data()

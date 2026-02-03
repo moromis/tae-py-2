@@ -5,6 +5,7 @@ from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import askdirectory
 
+from core.helpers.fprint import fprint
 from core.managers import character_manager, object_manager, room_manager, meta_manager
 from core.types.Writeable import Writeable
 
@@ -56,9 +57,9 @@ def add_key_to_json_file(filename, key, data):
         with open(f"{filename}.json", "w") as file:
             json.dump(file_contents, file)
     except FileNotFoundError:
-        print(f"Error: The file {filename} was not found.")
+        fprint(f"Error: The file {filename} was not found.")
     except json.JSONDecodeError:
-        print(f"Error: Could not decode JSON from the file {filename}.")
+        fprint(f"Error: Could not decode JSON from the file {filename}.")
 
 
 def write_data_json(filename, data):

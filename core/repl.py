@@ -1,8 +1,8 @@
 import prompt_toolkit
 from const import GO_BACK_CODE, STOP_CODE
-from core import cls, fprint
+from core import cls, fprint, logger
 from core.types.ReplResult import ReplResult
-from strings import BASE_PATH
+from strings import BASE_PATH, PROMPT_CHAR
 
 ResultType = ReplResult | object | str | None
 
@@ -43,6 +43,7 @@ class REPL:
         self.structure = structure
         self.running = True
         self.pinned = pins
+        self.entrypoint = BASE_PATH
 
     # for printing messages after a cls
     # think of it like toasts. Remove from the end
@@ -52,11 +53,12 @@ class REPL:
             if callable(p):
                 p()
             else:
-                fprint(p, bold=True)
+                fprint(p, bold=True, pinned=True)
 
     def run(self, entrypoint=BASE_PATH):
 
-        if entrypoint:
+        if entrypoint != BASE_PATH:
+            self.entrypoint = entrypoint
             self.router.clear()
             self.router.push(entrypoint)
 
@@ -94,7 +96,7 @@ class REPL:
                 self.stop()
                 break
             except Exception as e:
-                print(f"An error occurred: {e}")
+                fprint(f"An error occurred: {e}")
                 self.stop()
                 break
 
@@ -115,7 +117,8 @@ class REPL:
                 mouse_support=True,
                 enable_interrupt=True,
             )
+            logger.log(f"{PROMPT_CHAR}{chosen}")
         except (EOFError, KeyboardInterrupt):
-            return ReplResult(path=BASE_PATH, replace=True)
+            return ReplResult(path=self.entrypoint, replace=True)
         cls()
         return ReplResult(path=chosen)

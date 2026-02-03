@@ -24,3 +24,22 @@ def add_character(character: Character):
 def set_characters(new_characters: dict[str, Character]) -> None:
     global characters
     characters = new_characters
+
+
+def set_characters_json(new_characters: dict[str, Character | dict]) -> None:
+    global characters
+    sanitized_characters = {}
+    for n, o in new_characters.items():
+        if not isinstance(o, Character):
+            obj = Character(n)
+            obj.from_dict(o)
+            sanitized_characters[n] = obj
+    characters = sanitized_characters
+
+
+def get_character_by_name(name: str) -> Character | None:
+    global characters
+    name = name.lower()
+    for char_key, char in characters.items():
+        if char_key == name:
+            return char

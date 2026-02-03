@@ -1,3 +1,7 @@
+# logging files
+*.log.txt
+logs/
+
 # Python venv
 .venv
 venv
