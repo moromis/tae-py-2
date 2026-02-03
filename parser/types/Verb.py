@@ -1,5 +1,7 @@
 from typing import Callable
 
+from core.types.Character import Character
+from core.types.Object import Object
 from strings import DEFAULT_VERB_RESPONSE
 
 
@@ -26,7 +28,9 @@ class Verb:
     # if we the verb are handling the command, then the indirect and direct objects have already had
     # their chance, so go ahead and do your thing
     def handle_command(
-        self, object: str | None = None, indirect_object: str | None = None
+        self,
+        object: str | Object | Character | None = None,
+        indirect_object: str | Object | Character | None = None,
     ):
         if callable(self.default_response):
             if object and indirect_object:
@@ -37,6 +41,3 @@ class Verb:
                 return self.default_response()
         else:
             return self.default_response
-
-    def __getitem__(self, item):
-        return self[item]

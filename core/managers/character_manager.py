@@ -35,3 +35,11 @@ def set_characters_json(new_characters: dict[str, Character | dict]) -> None:
             obj.from_dict(o)
             sanitized_characters[n] = obj
     characters = sanitized_characters
+
+
+def get_character_by_name(name: str) -> Character | None:
+    global characters
+    name = name.lower()
+    for char_key, char in characters.items():
+        if char_key == name:
+            return char

@@ -40,6 +40,8 @@ def set_objects_json(new_objects: dict[str, dict | Object]) -> None:
 def get_object_by_name(obj_name: str) -> Object | None:
     global objects
     obj_name = obj_name.lower()
-    for k, v in objects.items():
-        if k == obj_name or "adjective" in v and f"{v.adjective} {k}" == obj_name:
-            return v
+    for obj_key, obj in objects.items():
+        if obj_key == obj_name or (
+            obj.adjective and f"{obj.adjective} {obj_key}" == obj_name
+        ):
+            return obj

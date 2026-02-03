@@ -6,15 +6,18 @@ from core.types.Writeable import Writeable
 class Character(Writeable):
     """A custom type to represent a character"""
 
-    def __init__(
-        self,
-        name: str,
-        desc: str = "",
-        responses: dict[str, Response] | None = None,
-    ):
+    def __init__(self, name: str, desc: str = "", responses: dict[str, Response] = {}):
         self.name = name
         self.desc = desc
         self.responses = responses
+
+    def handle_command(self, verb: str | None, topic: str | None = None) -> str | bool:
+        if verb == "talk":
+            if topic and topic in self.responses:
+                response = self.responses[topic].response
+                if isinstance(response, str):
+                    return response
+        return False
 
     def __str__(self) -> str:
         """Provides a string representation for the character."""

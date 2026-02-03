@@ -2,6 +2,7 @@
 
 from core.confirm import confirm
 from parser.types.Verb import Verb
+from parser.verbs.look import look
 from parser.verbs.take import take
 from strings import DEFAULT_VERB_RESPONSE
 
@@ -15,13 +16,11 @@ NO_OBJECT_VERBS = {
 
 VERBS = {
     "look": Verb(
-        lambda obj: (
-            obj.desc if "desc" in obj else f"The {obj} isn't too interesting..."
-        ),
+        look,
         synonyms=["look at, inspect, examine"],
     ),
     "hit": Verb(
-        lambda obj: f"You hit the {obj} but it doesn't do anything.",
+        lambda obj: f"You hit the {obj.name if "name" in obj else obj} but it doesn't do anything.",
         synonyms=["whack", "thwack", "smack", "bop"],
     ),
     "drop": Verb("Dropped."),

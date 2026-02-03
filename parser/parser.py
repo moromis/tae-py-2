@@ -1,7 +1,9 @@
 from http.client import GONE
 from logging import log
 from core import logger
+from core.managers.character_manager import get_character_by_name
 from core.managers.object_manager import get_object_by_name
+from core.types.Character import Character
 from core.types.Object import Object
 from parser.verbs import verbs
 from parser.history import History
@@ -40,7 +42,7 @@ class Parser:
             elif object:
                 handled = object.handle_command(verb_name)
                 if not handled:
-                    return verb_obj.handle_command(object.name)
+                    return verb_obj.handle_command(object)
                 else:
                     return str(handled)
             else:
@@ -57,17 +59,23 @@ class Parser:
                 return verb_name, verb, command[i + 1 :]
         return DEFAULT_VERB_RESPONSE, verbs.NO_RESPONSE_VERB, []
 
-    def get_object(self, command: list[str]) -> tuple[Object | None, list[str]]:
+    def get_object(
+        self, command: list[str]
+    ) -> tuple[Object | Character | None, list[str]]:
         for i, s in enumerate(command):
             found = get_object_by_name(s)
+            if not found:
+                found = get_character_by_name(s)
             if found:
                 return found, command[i + 1 :]
 
         return None, []
 
-    def get_indirect_object(self, command: list[str]) -> Object | None:
+    def get_indirect_object(self, command: list[str]) -> Object | Character | None:
         for i, s in enumerate(command):
             found = get_object_by_name(s)
+            if not found:
+                found = get_character_by_name(s)
             if found:
                 return found
 

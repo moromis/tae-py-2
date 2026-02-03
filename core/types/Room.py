@@ -33,9 +33,6 @@ class Room(Writeable):
         """Provides a string representation for the object."""
         return self.desc
 
-    def __getitem__(self, item):
-        return self[item]
-
     # TODO: see if this can be automated... same with other types of course
     def to_dict(self):
         return {

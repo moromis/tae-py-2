@@ -35,6 +35,3 @@ class Object(Writeable):
     def from_dict(self, d: dict):
         for k, v in d.items():
             setattr(self, k, v)
-
-    def __getitem__(self, item):
-        return self[item]
