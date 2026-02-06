@@ -1,4 +1,6 @@
 from core import Writeable, Room
+from core.types.Character import Character
+from core.types.Object import Object
 
 
 # TODO: make class, DRY with other managers
@@ -11,6 +13,7 @@ def add_room(room: Room) -> None:
     global current_room
     if len(rooms) == 0:
         current_room = room
+        room.is_entrance = True
     rooms[room.name] = room
 
 
@@ -24,16 +27,20 @@ def get_rooms_json():
     return {n: r.to_dict() if isinstance(r, Writeable) else r for n, r in rooms.items()}
 
 
-def set_entrance_room(room_name: str) -> None:
+def set_entrance_room(room: str | Room) -> None:
     global rooms
+    if room == None:
+        return
+    elif isinstance(room, Room):
+        room = room.name
     if not len(rooms):
         return
 
     # clear any other entrances -- there can only be one
     for name, room in rooms.items():
-        if room.is_entrance and name != room_name:
+        if room.is_entrance and name != room:
             room.is_entrance = False
-        elif name == room_name:
+        elif name == room:
             room.is_entrance = True
 
 
@@ -81,24 +88,40 @@ def set_rooms_json(new_rooms: dict[str, Room | dict]) -> None:
         current_room = entrance_room
 
 
-def add_object_to_room(obj_name: str, room_name: str) -> None:
+def add_object_to_room(obj: Object | str, room: Room | str) -> None:
     global rooms
-    rooms[room_name].add_object(obj_name)
+    if isinstance(obj, Object):
+        obj = obj.name
+    if isinstance(room, Room):
+        room = room.name
+    rooms[room].add_object(obj)
 
 
-def remove_object_from_room(obj_name: str, room_name: str) -> None:
+def remove_object_from_room(obj: Object | str, room: Room | str) -> None:
     global rooms
-    rooms[room_name].remove_object(obj_name)
+    if isinstance(obj, Object):
+        obj = obj.name
+    if isinstance(room, Room):
+        room = room.name
+    rooms[room].remove_object(obj)
 
 
-def get_object_from_room(obj_name: str, room_name: str) -> str | None:
+def get_object_from_room(obj: Object | str, room: Room | str) -> str | None:
     global rooms
-    return rooms[room_name].get_object(obj_name)
+    if isinstance(obj, Object):
+        obj = obj.name
+    if isinstance(room, Room):
+        room = room.name
+    return rooms[room].get_object(obj)
 
 
-def add_character_to_room(character: str, room_name: str) -> None:
+def add_character_to_room(character: Character | str, room: Room | str) -> None:
     global rooms
-    rooms[room_name].add_character(character)
+    if isinstance(character, Character):
+        character = character.name
+    if isinstance(room, Room):
+        room = room.name
+    rooms[room].add_character(character)
 
 
 def reset():

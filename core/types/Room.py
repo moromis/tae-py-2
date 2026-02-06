@@ -1,3 +1,4 @@
+from core.types.Object import Object
 from core.types.Writeable import Writeable
 
 
@@ -31,8 +32,10 @@ class Room(Writeable):
     def add_character(self, character: str) -> None:
         self.characters.append(character)
 
-    def has_object(self, obj_name: str) -> bool:
-        return obj_name in self.objects
+    def has_object(self, obj: Object | str | None) -> bool:
+        if isinstance(obj, Object):
+            return obj.name in self.objects
+        return obj in self.objects
 
     def __str__(self) -> str:
         """Provides a string representation for the object."""
@@ -54,3 +57,15 @@ class Room(Writeable):
 
     def handle_command(self, verb, object=None):
         return self.desc
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, Room):
+            # don't attempt to compare against unrelated types
+            return NotImplemented
+
+        return (
+            self.name == other.name
+            and self.adjacencies == other.adjacencies
+            and self.objects == other.objects
+            and self.characters == other.characters
+        )

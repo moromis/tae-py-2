@@ -1,5 +1,4 @@
 from typing import Callable
-from core.types.Character import Character
 from core.types.Writeable import Writeable
 
 

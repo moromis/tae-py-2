@@ -1,9 +1,9 @@
 from const import GO_BACK_CODE, STOP_CODE
 from core.gamestate import load_game, unload_game
 from core.helpers.fprint import fprint
-from editor.character import create_character, view_characters
-from editor.object import create_object
-from editor.room import create_room
+from editor.character_creator import create_character, view_characters
+from editor.object_creator import create_object
+from editor.room_creator import create_room
 from core import prompt
 from core.managers.meta_manager import set_meta_by_key, META_KEYS, print_title
 from core.file_io import write_game_data

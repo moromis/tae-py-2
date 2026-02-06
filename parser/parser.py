@@ -4,18 +4,11 @@ from core import logger
 from core.managers.object_manager import Object_Manager
 from core.types.Writeable import Writeable
 from parser.verbs import verbs
-from parser.history import History
 from parser.types.Verb import Verb
 from strings import DEFAULT_VERB_RESPONSE, GONE_WRONG
 
 
 class Parser:
-    def __init__(self) -> None:
-        self.history = History()
-
-    def add_to_history(self, command: str) -> None:
-        self.history.push_history(command)
-
     def split_to_words(self, command: str) -> list[str]:
         return command.split(" ")
 

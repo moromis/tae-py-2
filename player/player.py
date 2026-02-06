@@ -7,6 +7,7 @@ from core.helpers.prompt import prompt
 from core.managers import meta_manager
 from core.managers.room_manager import get_entrance_room
 from core.repl import REPL
+from player.history import History
 from parser.parser import Parser
 from strings import (
     GAME_LOAD_FAILED,
@@ -24,6 +25,7 @@ PLAY_GAME = "Play the game"
 
 class Player:
     def __init__(self) -> None:
+        self.history = History()
         self.loaded = False
         self.new_room = True
         self.player_structure = {MAIN: {LOAD_GAME: self.load_game, GO_BACK: STOP_CODE}}
@@ -36,6 +38,9 @@ class Player:
         }
         self.repl = REPL(self.player_structure)
         self.parser = Parser()
+
+    def add_to_history(self, command: str) -> None:
+        self.history.push_history(command)
 
     def save_game(self):
         return GAME_SAVED
@@ -54,7 +59,7 @@ class Player:
         room = get_entrance_room()
         cls()
         while True:
-            if self.new_room:
+            if self.new_room and room:
                 fprint(room.name, bold=True)
                 fprint(room.desc)
                 newline()
@@ -70,6 +75,7 @@ class Player:
                 self.new_room = False
                 newline()
             command = prompt()
+            self.add_to_history(command)
             cls()
             fprint(self.parser.parse(command))
             newline()

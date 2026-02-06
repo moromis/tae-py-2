@@ -11,9 +11,16 @@ obj = TEST_OBJECT
 
 
 class TestTake(unittest.TestCase):
+    def setUp(self) -> None:
+        room_manager.reset()
+        inventory.reset()
+        room.objects = []
+        return super().setUp()
+
     def tearDown(self) -> None:
         room_manager.reset()
         inventory.reset()
+        room.objects = []
         return super().tearDown()
 
     def test_take_no_room(self):

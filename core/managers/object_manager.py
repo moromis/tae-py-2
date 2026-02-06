@@ -45,3 +45,7 @@ class Object_Manager:
                 obj.adjective and f"{obj.adjective} {obj_key}" == obj_name
             ):
                 return obj
+
+    @classmethod
+    def reset(cls) -> None:
+        cls.objects = {}
