@@ -45,7 +45,12 @@ class Character(Writeable):
         for k, v in d.items():
             setattr(self, k, v)
 
-    def add_response(self, topic: str, response: str | list[str], condition):
+    def add_response(
+        self, topic: str, response: Response | str | list[str], condition=None
+    ):
         if not self.responses:
             self.responses = {}
-        self.responses[topic] = Response(response, condition)
+        if isinstance(response, Response):
+            self.responses[topic] = response
+        else:
+            self.responses[topic] = Response(response, condition)

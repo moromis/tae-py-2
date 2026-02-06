@@ -3,11 +3,15 @@ import unittest
 from unittest.mock import _patch_dict, patch
 
 from core.managers.object_manager import Object_Manager
+from core.types.Character import Character
+from core.types.Response import Response
+from core.types.tests import test_character
 from parser.parser import Parser
 from parser.types.Verb import Verb
 from testing.fixtures import (
     INDIRECT_RESPONSE,
     OBJECT_RESPONSE,
+    TEST_CHARACTER,
     TEST_I_OBJ,
     TEST_OBJECT,
     TEST_VERB,
@@ -83,3 +87,16 @@ class TestParser(unittest.TestCase):
         command = f"{TEST_VERB} {TEST_OBJECT.name} with {test_i_obj.name}"
         response = parser.parse(command)
         self.assertEqual(response, test_i_obj.handlers[TEST_VERB](TEST_OBJECT.name))
+
+    def test_parse_talk(self):
+        parser = Parser()
+        Object_Manager.add(TEST_OBJECT)
+        test_character = copy.deepcopy(TEST_CHARACTER)
+        test_topic = "air"
+        test_response = Response("...but why is there air?")
+        test_character.add_response(test_topic, test_response)
+        Object_Manager.add(test_character)
+        self.assertIsInstance(test_character, Character)
+        command = f"talk to {TEST_CHARACTER.name} about {test_topic}"
+        response = parser.parse(command)
+        self.assertEqual(response, test_response.response)

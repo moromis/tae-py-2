@@ -2,6 +2,9 @@ from abc import ABC, abstractmethod
 
 
 class Writeable(ABC):
+    # TODO: separate out writeable and object, and then current object and character inherit
+    # from new class, so Response class, which should be a writeable,
+    # doesn't inherit all this stuff that doesn't apply to it
     name: str
     desc: str
     adjective = ""
