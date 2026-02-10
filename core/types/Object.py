@@ -34,7 +34,12 @@ class Object(Writeable):
         return f"There is a {self.desc} here."
 
     def to_dict(self) -> dict:
-        return super().to_dict()
+        return {
+            "name": self.name,
+            "desc": self.desc,
+            "adjective": self.adjective,
+            # TODO: figure out how to serialize handlers
+        }
 
     def from_dict(self, d: dict):
         for k, v in d.items():

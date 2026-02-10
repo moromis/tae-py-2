@@ -41,11 +41,10 @@ class Room(Writeable):
         """Provides a string representation for the object."""
         return self.desc
 
-    # TODO: see if this can be automated... same with other types of course
     def to_dict(self):
-        base = super().to_dict()
         return {
-            **base,
+            "name": self.name,
+            "desc": self.desc,
             "adjacencies": self.adjacencies,
             "objects": self.objects,
             "characters": self.characters,

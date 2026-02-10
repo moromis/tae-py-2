@@ -13,4 +13,3 @@ class TestObject(unittest.TestCase):
         dict_object = test_object.to_dict()
         self.assertEqual(dict_object["name"], TEST_NAME)
         self.assertEqual(dict_object["desc"], TEST_DESC)
-        self.assertFalse(dict_object["is_character"])
