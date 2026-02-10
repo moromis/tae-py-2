@@ -1,16 +1,19 @@
+from core.types.Object import Object
 from core.types.Response import Response
-from core.types.Writeable import Writeable
 from parser.types.Verb import Verb
 
 
-class Character(Writeable):
+class Character(Object):
     """A custom type to represent a character"""
 
-    is_character = True
-
-    def __init__(self, name: str, desc: str = "", responses: dict[str, Response] = {}):
-        self.name = name
-        self.desc = desc
+    def __init__(
+        self,
+        name: str,
+        desc: str = "",
+        adjective: str = "",
+        responses: dict[str, Response] = {},
+    ):
+        super().__init__(name, desc, adjective)
         self.responses = responses
 
     def handle_command(self, **kwargs) -> str | bool:
@@ -28,6 +31,7 @@ class Character(Writeable):
                 return f"What do you want to talk to {self.name} about?"
         return False
 
+    # TODO: use this to print the character instead of directly accessing attributes
     def __str__(self) -> str:
         """Provides a string representation for the character."""
         return f"{self.name}\n{self.desc}"
@@ -37,14 +41,11 @@ class Character(Writeable):
         return {
             **base,
             "responses": (
-                {
-                    t: r.to_dict() if isinstance(r, Writeable) else r
-                    for t, r in self.responses.items()
-                }
+                {t: r.to_dict() for t, r in self.responses.items()}
                 if self.responses
                 else None
             ),
-            "is_character": self.is_character,
+            "is_character": True,
         }
 
     def from_dict(self, d: dict):
