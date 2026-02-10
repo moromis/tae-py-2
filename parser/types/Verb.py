@@ -26,11 +26,11 @@ class Verb:
 
     # if we the verb are handling the command, then the indirect and direct objects have already had
     # their chance, so go ahead and do your thing
-    def handle_command(
-        self,
-        object: str | Writeable | None = None,
-        indirect_object: str | Writeable | None = None,
-    ) -> str:
+    def handle_command(self, **kwargs) -> str:
+        object: str | Writeable | None = kwargs.get("object", None)
+        indirect_object: str | Writeable | None = kwargs.get("indirect_object", None)
+        rest: list[str] | None = kwargs.get("rest", None)
+
         if callable(self.default_response):
             if object and indirect_object:
                 return self.default_response(object, indirect_object)

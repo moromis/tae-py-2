@@ -1,7 +1,7 @@
 from core.types.Character import Character
 from core.types.Object import Object
 from core.types.Room import Room
-from strings import DEFAULT_VERB_RESPONSE
+from strings import DEFAULT_VERB_RESPONSE, WHAT_ARE_YOU_TALKING_ABOUT
 
 # Objects
 TEST_ROOM = Room("test", "test-desc")
@@ -10,11 +10,21 @@ TEST_CHARACTER = Character("man", "an okay guy I guess... for a test fixture")
 
 # Parser/grammar
 TEST_VERB = "hit"
+
+
+def TEST_HANDLER(**kwargs):
+    object = kwargs.get("object", None)
+    if object:
+        return f"You cleave the {object.name} in twain!"
+    else:
+        return WHAT_ARE_YOU_TALKING_ABOUT
+
+
 TEST_I_OBJ = Object(
     "hammer",
     "goes whackity",
     "evil",
-    handlers={TEST_VERB: lambda obj: "You cleave the {obj} in twain!"},
+    handlers={TEST_VERB: TEST_HANDLER},
 )
 
 TEST_COMMANDS = {

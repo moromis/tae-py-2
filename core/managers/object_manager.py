@@ -1,4 +1,5 @@
 from core import Object
+from core.types.Character import Character
 from core.types.Writeable import Writeable
 
 
@@ -27,10 +28,15 @@ class Object_Manager:
     def set_from_json(cls, new_objects: dict[str, dict | type[Writeable]]) -> None:
         sanitized_objects = {}
         for n, o in new_objects.items():
-            if not isinstance(o, Object):
-                obj = Object(n)
+            if not isinstance(o, Writeable):
+                if o["is_character"]:  # type: ignore
+                    obj = Character(n)
+                else:
+                    obj = Object(n)
                 obj.from_dict(o)  # type: ignore
                 sanitized_objects[n] = obj
+            else:
+                sanitized_objects[n] = o
         cls.objects = sanitized_objects
 
     @classmethod

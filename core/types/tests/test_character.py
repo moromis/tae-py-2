@@ -19,6 +19,6 @@ class TestCharacter(unittest.TestCase):
         test_topic = "air"
         test_response = Response("...but why is there air?", None)
         test_character.responses = {test_topic: test_response}
-        res = test_character.handle_command("talk", test_topic)
+        res = test_character.handle_command(verb="talk", rest=[test_topic])
         self.assertNotEqual(res, False)
         self.assertEqual(res, test_response.response)

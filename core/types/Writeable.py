@@ -27,6 +27,10 @@ class Writeable(ABC):
 
     @abstractmethod
     def handle_command(
-        self, verb: str, object: Writeable | str | None = None
+        self,
+        **kwargs
+        # verb: str,
+        # object: Writeable | str | None = None,
+        # rest: list[str] | None = None,
     ) -> str | bool:
         pass

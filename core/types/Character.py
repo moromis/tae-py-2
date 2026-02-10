@@ -1,5 +1,6 @@
 from core.types.Response import Response
 from core.types.Writeable import Writeable
+from parser.types.Verb import Verb
 
 
 class Character(Writeable):
@@ -12,14 +13,19 @@ class Character(Writeable):
         self.desc = desc
         self.responses = responses
 
-    def handle_command(
-        self, verb: str | None, object: Writeable | str | None = None
-    ) -> str | bool:
+    def handle_command(self, **kwargs) -> str | bool:
+        verb: str | Verb | None = kwargs.get("verb", None)
+        # object: Writeable | str | None = kwargs.get("object", None)
+        # indirect_object: Writeable | str | None = kwargs.get("indirect_object", None)
+        rest: list[str] | None = kwargs.get("rest", None)
         if verb == "talk":
-            if object and isinstance(object, str) and object in self.responses:
-                response = self.responses[object].response
+            topic = " ".join(rest) if rest else None
+            if topic in self.responses:
+                response = self.responses[topic].response
                 if isinstance(response, str):
                     return response
+            else:
+                return f"What do you want to talk to {self.name} about?"
         return False
 
     def __str__(self) -> str:
@@ -43,7 +49,11 @@ class Character(Writeable):
 
     def from_dict(self, d: dict):
         for k, v in d.items():
-            setattr(self, k, v)
+            if k == "responses" and d["responses"] and len(d["responses"]):
+                for topic, response in d["responses"].items():
+                    self.responses[topic] = Response(**response)
+            else:
+                setattr(self, k, v)
 
     def add_response(
         self, topic: str, response: Response | str | list[str], condition=None
