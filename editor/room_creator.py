@@ -1,7 +1,7 @@
 from prompt_toolkit import choice
 
 from core.managers import room_manager
-from editor.shared.directions import DIRECTIONS
+from editor.shared.directions import DIRECTIONS, reverse_direction
 from core import ReplResult, Room, prompt
 from core.file_io import write_game_data
 from prompt_toolkit.shortcuts import checkboxlist_dialog
@@ -19,10 +19,14 @@ def create_room():
             values=[(r, r) for r in rooms.keys() if r != name],
         ).run()
         if len(adjacent_rooms):
-            direction_choices = DIRECTIONS
+            direction_choices = [(d, d.value) for d in DIRECTIONS]
             for ar in adjacent_rooms:
                 direction = choice("Which direction?", options=direction_choices)
                 adjacencies[direction] = ar
+                # add adjacency to adjacent room
+                reversed_dir = reverse_direction(direction)
+                if reversed_dir:
+                    room_manager.add_adjacency(ar, name, reversed_dir)
                 # drop the chosen direction as a choice
                 direction_choices = [d for d in direction_choices if d[0] != direction]
                 if len(direction_choices) == 0:

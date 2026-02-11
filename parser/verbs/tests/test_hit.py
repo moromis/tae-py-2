@@ -10,9 +10,9 @@ class TestHit(unittest.TestCase):
         self.assertEqual(res, WHAT_HIT)
 
     def test_hit_obj(self):
-        res = hit(TEST_OBJECT)
+        res = hit(object=TEST_OBJECT)
         self.assertEqual(res, DEFAULT_HIT_RESPONSE(TEST_OBJECT.name))
 
     def test_hit_indirect_obj(self):
-        res = hit(TEST_OBJECT, TEST_I_OBJ)
+        res = hit(object=TEST_OBJECT, indirect_object=TEST_I_OBJ)
         self.assertEqual(res, INDIRECT_HIT_RESPONSE(TEST_OBJECT.name, TEST_I_OBJ.name))

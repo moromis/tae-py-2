@@ -1,11 +1,18 @@
 from core.types.Object import Object
 from core.types.Writeable import Writeable
+from editor.shared.directions import DIRECTIONS
 
 
 class Room(Writeable):
     """A custom type to represent a room"""
 
-    def __init__(self, name: str, desc: str = "", adjacencies={}, is_entrance=False):
+    def __init__(
+        self,
+        name: str,
+        desc: str = "",
+        adjacencies: dict[str, str] = {},
+        is_entrance=False,
+    ):
         self.name = name
         self.desc = desc
         self.adjacencies = adjacencies
@@ -13,8 +20,15 @@ class Room(Writeable):
         self.objects = []
         self.is_entrance = is_entrance
 
-    def add_adjacency(self, room: str, direction: str) -> None:
-        self.adjacencies |= {f"{direction}": room}
+    def add_adjacency(self, room: str, direction: DIRECTIONS) -> None:
+        self.adjacencies |= {f"{direction.value}": room}
+
+    def has_adjacency(self, direction: DIRECTIONS) -> bool:
+        return direction.value in self.adjacencies
+
+    def get_adjacency(self, direction: DIRECTIONS) -> str | None:
+        if self.has_adjacency(direction):
+            return self.adjacencies[direction.value]
 
     def add_object(self, obj: str) -> None:
         self.objects.append(obj)

@@ -1,12 +1,12 @@
 from core.managers import room_manager
-from core.types.Character import Character
 from core.types.Object import Object
 from strings import DONT_SEE_HERE, FLOATING_IN_SPACE
 
 LOOK_NOT_INTERESTING = lambda obj: f"The {obj} isn't too interesting..."
 
 
-def look(obj: Object | None = None):
+def look(**kwargs):
+    obj = kwargs.get("object")
     current_room = room_manager.get_current_room()
     if current_room:
         obj_in_room = current_room.has_object(

@@ -38,9 +38,9 @@ OBJECT_RESPONSE = lambda o: f"You do the thing with the {o}"
 INDIRECT_RESPONSE = lambda o, i: f"You do the action on the {o} with the {i}"
 
 
-def TEST_VERB_HANDLER(
-    obj: Object | Character | None = None, i_obj: Object | None = None
-):
+def TEST_VERB_HANDLER(**kwargs):
+    obj = kwargs.get("object")
+    i_obj = kwargs.get("indirect_object")
     if obj and i_obj:
         return INDIRECT_RESPONSE(obj.name, i_obj.name)
     elif obj:

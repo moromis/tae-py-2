@@ -5,9 +5,11 @@ from strings import NO_INVENTORY
 inventory = []
 
 
-def add_to_inventory(obj_name: str) -> None:
+def add_to_inventory(obj: str | Object) -> None:
     global inventory
-    inventory.append(obj_name)
+    if isinstance(obj, Object):
+        obj = obj.name
+    inventory.append(obj)
 
 
 def remove_from_inventory(obj_name: str) -> None:
@@ -30,7 +32,7 @@ def reset():
     inventory = []
 
 
-def get_inventory_string():
+def get_inventory_string(**kwargs):
     global inventory
     inventory_string = NO_INVENTORY
     if len(inventory):

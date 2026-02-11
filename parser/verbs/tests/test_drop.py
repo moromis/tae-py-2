@@ -17,16 +17,16 @@ class TestDrop(unittest.TestCase):
         return super().tearDown()
 
     def test_drop_no_room(self):
-        res = drop(obj.name)
+        res = drop(object=obj)
         self.assertEqual(res, FLOATING_IN_SPACE)
 
     def test_drop_no_item(self):
         room_manager.add_room(room)
-        res = drop(obj.name)
+        res = drop(object=obj)
         self.assertEqual(res, DONT_HAVE_THAT)
 
     def test_drop_with_item(self):
         room_manager.add_room(room)
-        inventory.add_to_inventory(obj.name)
-        res = drop(obj.name)
+        inventory.add_to_inventory(obj)
+        res = drop(object=obj)
         self.assertNotEqual(res, DONT_HAVE_THAT)
