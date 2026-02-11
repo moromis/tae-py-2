@@ -23,7 +23,7 @@ class DIRECTIONS(StrEnum):
     NORTHWEST = auto()
 
 
-def reverse_direction(dir: str):
+def reverse_direction(dir: DIRECTIONS):
     match dir:
         case DIRECTIONS.NORTH:
             return DIRECTIONS.SOUTH

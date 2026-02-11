@@ -57,7 +57,7 @@ class Parser:
                         return handled
                     return str(handled)
             else:
-                return verb_obj.handle_command(rest=rest)
+                return verb_obj.handle_command(verb=verb_name, rest=rest)
         except Exception as e:
             logger.log(str(e))
             log(3, e)
@@ -77,7 +77,7 @@ class Parser:
             if found:
                 return found, command[i + 1 :]
 
-        return None, []
+        return None, command
 
     def get_indirect_object(self, command: list[str]) -> Object | None:
         for i, s in enumerate(command):

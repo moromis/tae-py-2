@@ -24,18 +24,18 @@ class TestTake(unittest.TestCase):
         return super().tearDown()
 
     def test_take_no_room(self):
-        res = take(obj)
+        res = take(object=obj)
         self.assertEqual(res, FLOATING_IN_SPACE)
 
     def test_take_no_object(self):
         room_manager.add_room(room)
-        res = take(obj)
+        res = take(object=obj)
         self.assertEqual(res, DONT_SEE_HERE)
 
     def test_take_with_object(self):
         room_manager.add_room(room)
         room_manager.add_object_to_room(obj.name, room.name)
-        res = take(obj)
+        res = take(object=obj)
         self.assertIn(obj.name, res)
         self.assertTrue(inventory.has(obj.name))
         self.assertIsNone(room_manager.get_object_from_room(obj.name, room.name))

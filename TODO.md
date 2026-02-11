@@ -12,4 +12,7 @@
 - Editing while playing?
   - Separate state and game... could write new game files, load in, and reapply state/commands? depends on changes
 
-  - multiple commands (split_by_and)
+- multiple commands (split_by_and)
+
+- hot reload
+  - save commands, loaded game to disk, restart process with external script, reload game, run back commands

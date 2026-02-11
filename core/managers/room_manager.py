@@ -1,6 +1,7 @@
 from core import Writeable, Room
 from core.types.Character import Character
 from core.types.Object import Object
+from editor.shared.directions import DIRECTIONS
 
 
 # TODO: make class, DRY with other managers
@@ -17,11 +18,31 @@ def add_room(room: Room) -> None:
     rooms[room.name] = room
 
 
-def add_adjacency(adjacent: str, to_add: str, direction: str) -> None:
+def add_adjacency(adjacent: str, to_add: str, direction: DIRECTIONS) -> None:
     global rooms
     if len(rooms) == 0:
         raise ValueError("No rooms to add adjacency to")
     rooms[adjacent].add_adjacency(to_add, direction)
+
+
+# TODO: test
+def get_adjacency(r: Room | str, direction: DIRECTIONS) -> Room | None:
+    global rooms
+    if isinstance(r, str) and r in rooms:
+        current = rooms[r]
+        str_adj = current.get_adjacency(direction)
+        if str_adj:
+            return rooms[str_adj]
+
+
+# TODO: test
+def get_current_room_adjacency(direction: DIRECTIONS) -> Room | None:
+    global rooms
+    global current_room
+    if current_room:
+        str_adj = current_room.get_adjacency(direction)
+        if str_adj:
+            return rooms[str_adj]
 
 
 def get_rooms() -> dict[str, Room]:
@@ -66,6 +87,11 @@ def get_entrance_room() -> Room | None:
 def get_current_room():
     global current_room
     return current_room
+
+
+def set_current_room(r: Room):
+    global current_room
+    current_room = r
 
 
 # TODO: DRY w/ other managers

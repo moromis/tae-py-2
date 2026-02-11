@@ -2,8 +2,10 @@ import copy
 import unittest
 from unittest.mock import patch
 
+from core.managers import room_manager
 from core.managers.object_manager import Object_Manager
 from core.types.Character import Character
+from editor.shared.directions import DIRECTIONS, reverse_direction
 from parser.parser import Parser
 from parser.types.Verb import Verb
 from strings import THEY_DONT_WANT_TO_TALK
@@ -13,6 +15,7 @@ from testing.fixtures import (
     TEST_CHARACTER,
     TEST_I_OBJ,
     TEST_OBJECT,
+    TEST_ROOM,
     TEST_VERB,
     TEST_VERB_HANDLER,
 )
@@ -53,7 +56,7 @@ class TestParser(unittest.TestCase):
         Object_Manager.add(TEST_OBJECT)
         obj, command = parser.get_object(["asdf", "qwer", "zxcv"])
         self.assertIsNone(obj)
-        self.assertEqual(len(command), 0)
+        self.assertEqual(len(command), 3)
 
     def test_get_indirect_object(self):
         parser = Parser()
@@ -134,3 +137,17 @@ class TestParser(unittest.TestCase):
         choice_mock.assert_called_once()
         self.assertIsInstance(response, FormattedText)
         self.assertTrue(test_response in str(response))
+
+    def test_parse_move_named(self):
+        parser = Parser()
+        test_room = copy.deepcopy(TEST_ROOM)
+        test_room_2 = copy.deepcopy(TEST_ROOM)
+        test_room_2.name = "a second test room"
+
+        test_room.add_adjacency(test_room_2.name, DIRECTIONS.NORTH)
+        test_room_2.add_adjacency(test_room.name, reverse_direction(DIRECTIONS.NORTH))
+        room_manager.add_room(test_room)
+        room_manager.add_room(test_room_2)
+
+        res = parser.parse("north")
+        self.assertEqual(room_manager.get_current_room(), test_room_2)

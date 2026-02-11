@@ -8,10 +8,9 @@ INDIRECT_HIT_RESPONSE = (
 WHAT_HIT = "What do you want to hit?"
 
 
-def hit(
-    obj: Object | None = None,
-    indirect_object: Object | None = None,
-):
+def hit(**kwargs):
+    obj = kwargs.get("object")
+    indirect_object = kwargs.get("indirect_object")
     if not obj:
         return WHAT_HIT
     elif isinstance(obj, Object):
