@@ -17,6 +17,13 @@ def add_room(room: Room) -> None:
     rooms[room.name] = room
 
 
+def add_adjacency(adjacent: str, to_add: str, direction: str) -> None:
+    global rooms
+    if len(rooms) == 0:
+        raise ValueError("No rooms to add adjacency to")
+    rooms[adjacent].add_adjacency(to_add, direction)
+
+
 def get_rooms() -> dict[str, Room]:
     global rooms
     return rooms
