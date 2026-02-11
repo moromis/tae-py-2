@@ -1,7 +1,7 @@
 from logging import log
 from core import logger
 from core.managers.object_manager import Object_Manager
-from core.types.Writeable import Writeable
+from core.types.Object import Object
 from parser.verbs import verbs
 from parser.types.Verb import Verb
 from strings import DEFAULT_VERB_RESPONSE, GONE_WRONG
@@ -68,7 +68,7 @@ class Parser:
                 return verb_name, verb, command[i + 1 :]
         return None
 
-    def get_object(self, command: list[str]) -> tuple[Writeable | None, list[str]]:
+    def get_object(self, command: list[str]) -> tuple[Object | None, list[str]]:
         for i, s in enumerate(command):
             found = Object_Manager.get_by_name(s)
             if found:
@@ -76,7 +76,7 @@ class Parser:
 
         return None, []
 
-    def get_indirect_object(self, command: list[str]) -> Writeable | None:
+    def get_indirect_object(self, command: list[str]) -> Object | None:
         for i, s in enumerate(command):
             found = Object_Manager.get_by_name(s)
             if found:

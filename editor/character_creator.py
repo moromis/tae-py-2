@@ -5,6 +5,7 @@ from core.managers.object_manager import Object_Manager
 from core.types.ReplResult import ReplResult
 from core.types.Character import Character
 from core.file_io import write_game_data
+from core.types.Response import Response
 
 
 def create_character():
@@ -24,7 +25,7 @@ def create_character():
             room = rooms[room_name]
     responses = character_responses()
 
-    new_character = Character(name, desc, responses)
+    new_character = Character(name, desc, responses=responses)
 
     Object_Manager.add(new_character)
     if room:
@@ -39,7 +40,7 @@ def get_condition():
 
 
 def character_responses():
-    responses = dict()
+    responses: dict[str, Response] = dict()
     ans = yes_no("Add a response to a question for this character?")
     while ans:
         topic = prompt(
@@ -50,7 +51,7 @@ def character_responses():
         condition = None
         if dependent:
             condition = get_condition()
-        responses[topic] = {"response": response, "condition": condition}
+        responses[topic] = Response(response, condition)
         ans = yes_no("Add another response?")
 
     return responses
