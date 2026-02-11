@@ -1,6 +1,7 @@
 from prompt_toolkit import choice
+from core.helpers.yes_no import yes_no
 from core.managers import room_manager
-from core import fprint, prompt, yes_no
+from core import fprint, prompt
 from core.managers.object_manager import Object_Manager
 from core.types.ReplResult import ReplResult
 from core.types.Character import Character

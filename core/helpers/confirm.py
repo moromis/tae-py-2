@@ -1,6 +1,5 @@
 from typing import Callable
 
-from prompt_toolkit import choice
 
 from core.helpers.yes_no import yes_no
 from strings import CONTINUE_ON

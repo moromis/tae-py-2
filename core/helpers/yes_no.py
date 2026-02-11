@@ -1,5 +1,4 @@
 # returns true if "y" is typed, and false if "n" is typed
-from prompt_toolkit import PromptSession
 import prompt_toolkit
 
 from core import logger

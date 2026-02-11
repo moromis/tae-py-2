@@ -1,4 +1,3 @@
-from core.types.Character import Character
 from core.types.Object import Object
 
 # TODO: make a "What do you want to x" default behavior?
@@ -10,12 +9,12 @@ WHAT_HIT = "What do you want to hit?"
 
 
 def hit(
-    obj: Object | Character | None = None,
-    indirect_object: Object | Character | None = None,
+    obj: Object | None = None,
+    indirect_object: Object | None = None,
 ):
     if not obj:
         return WHAT_HIT
-    elif isinstance(obj, Object) or isinstance(obj, Character):
+    elif isinstance(obj, Object):
         if isinstance(indirect_object, Object):
             return INDIRECT_HIT_RESPONSE(obj.name, indirect_object.name)
         return DEFAULT_HIT_RESPONSE(obj.name)

@@ -2,7 +2,7 @@
 
 import os
 from signal import Signals
-from core.confirm import confirm
+from core.helpers.confirm import confirm
 from parser.inventory import get_inventory_string
 from parser.types.Verb import Verb
 from parser.verbs.drop import drop
