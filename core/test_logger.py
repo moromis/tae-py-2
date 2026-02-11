@@ -1,4 +1,5 @@
 import os
+import shutil
 import unittest
 
 from core import logger
@@ -7,8 +8,7 @@ from core import logger
 class TestLogger(unittest.TestCase):
 
     def tearDown(self) -> None:
-        os.remove(logger.filename)
-        os.removedirs(logger.log_folder)
+        shutil.rmtree(logger.log_folder)
         return super().tearDown()
 
     def test_log(self):

@@ -4,9 +4,9 @@ from unittest.mock import patch
 
 from core.managers.object_manager import Object_Manager
 from core.types.Character import Character
-from core.types.Response import Response
 from parser.parser import Parser
 from parser.types.Verb import Verb
+from strings import THEY_DONT_WANT_TO_TALK
 from testing.fixtures import (
     INDIRECT_RESPONSE,
     OBJECT_RESPONSE,
@@ -16,6 +16,7 @@ from testing.fixtures import (
     TEST_VERB,
     TEST_VERB_HANDLER,
 )
+from prompt_toolkit.formatted_text import FormattedText
 
 
 @patch.dict("parser.verbs.verbs.VERBS", {"hit": Verb(TEST_VERB_HANDLER)})
@@ -96,25 +97,40 @@ class TestParser(unittest.TestCase):
         Object_Manager.add(TEST_OBJECT)
         test_character = copy.deepcopy(TEST_CHARACTER)
         test_topic = "air"
-        test_response = Response("...but why is there air?")
+        test_response = "...but why is there air?"
         test_character.add_response(test_topic, test_response)
         Object_Manager.add(test_character)
         self.assertIsInstance(test_character, Character)
         command = f"talk to {TEST_CHARACTER.name} about {test_topic}"
-        response = parser.parse(command)
-        self.assertEqual(response, test_response.response)
+        res = parser.parse(command)
+        self.assertTrue(test_response in str(res))
 
-    def test_parse_talk_no_topic(self):
+    @patch("core.types.Character.prompt_toolkit.choice", return_value="air")
+    def test_parse_talk_no_topic(self, choice_mock):
+        parser = Parser()
+        Object_Manager.add(TEST_OBJECT)
+        test_character = copy.deepcopy(TEST_CHARACTER)
+        test_character.responses = {}
+        Object_Manager.add(test_character)
+        self.assertIsInstance(test_character, Character)
+        self.assertEqual(len(test_character.responses), 0)
+        command = f"talk to {TEST_CHARACTER.name}"
+        response = parser.parse(command)
+        choice_mock.assert_not_called()
+        self.assertEqual(response, THEY_DONT_WANT_TO_TALK)
+
+    @patch("core.types.Character.prompt_toolkit.choice", return_value="air")
+    def test_parse_talk_topic_selection(self, choice_mock):
         parser = Parser()
         Object_Manager.add(TEST_OBJECT)
         test_character = copy.deepcopy(TEST_CHARACTER)
         test_topic = "air"
-        test_response = Response("...but why is there air?")
+        test_response = "...but why is there air?"
         test_character.add_response(test_topic, test_response)
         Object_Manager.add(test_character)
         self.assertIsInstance(test_character, Character)
         command = f"talk to {TEST_CHARACTER.name}"
         response = parser.parse(command)
-        self.assertIsNot(response, False)
-        self.assertStartsWith(response, "What do you want to talk")
-        self.assertEndsWith(response, "about?")
+        choice_mock.assert_called_once()
+        self.assertIsInstance(response, FormattedText)
+        self.assertTrue(test_response in str(response))

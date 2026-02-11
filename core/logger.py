@@ -16,6 +16,6 @@ def log(s: str | FormattedText):
         os.makedirs(log_folder)
     with open(filename, "a+") as file:
         if isinstance(s, FormattedText):
-            s = s.__repr__()
+            s = str(s)
         file.write(s)
         file.write("\n")

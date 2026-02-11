@@ -3,6 +3,7 @@ import unittest
 
 from core.types.Response import Response
 from testing.fixtures import TEST_CHARACTER
+from prompt_toolkit.formatted_text import FormattedText
 
 
 class TestCharacter(unittest.TestCase):
@@ -17,8 +18,11 @@ class TestCharacter(unittest.TestCase):
     def test_talk(self):
         test_character = copy.deepcopy(TEST_CHARACTER)
         test_topic = "air"
-        test_response = Response("...but why is there air?", None)
-        test_character.responses = {test_topic: test_response}
+        test_response = "...but why is there air?"
+        test_character.responses = {test_topic: Response(test_response)}
         res = test_character.handle_command(verb="talk", rest=[test_topic])
         self.assertNotEqual(res, False)
-        self.assertEqual(res, test_response.response)
+        if isinstance(res, FormattedText):
+            self.assertTrue(test_response in str(res))
+        elif isinstance(res, str):
+            self.assertTrue(test_response in res)
