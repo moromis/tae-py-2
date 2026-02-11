@@ -3,7 +3,6 @@ import unittest
 
 from core.managers import room_manager
 from core.types.Room import Room
-from editor import character_creator
 from testing.fixtures import TEST_CHARACTER, TEST_OBJECT, TEST_ROOM
 
 
@@ -116,4 +115,5 @@ class TestRoomManager(unittest.TestCase):
         room_manager.add_room(room)
         room_manager.add_character_to_room(character, room)
         self.assertEqual(len(room.characters), 1)
-        self.assertEqual(room.characters[0], character.name)
+        self.assertStartsWith(room.characters[0], character.adjective)
+        self.assertEndsWith(room.characters[0], character.name)

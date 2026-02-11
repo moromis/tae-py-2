@@ -6,7 +6,7 @@ from strings import DEFAULT_VERB_RESPONSE, WHAT_ARE_YOU_TALKING_ABOUT
 # Objects
 TEST_ROOM = Room("test", "test-desc")
 TEST_OBJECT = Object("nail", "ready to get hammered sir", "shiny")
-TEST_CHARACTER = Character("man", "an okay guy I guess... for a test fixture")
+TEST_CHARACTER = Character("man", "an okay guy I guess... for a test fixture", "hype")
 
 # Parser/grammar
 TEST_VERB = "hit"

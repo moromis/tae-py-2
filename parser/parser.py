@@ -5,6 +5,7 @@ from core.types.Object import Object
 from parser.verbs import verbs
 from parser.types.Verb import Verb
 from strings import DEFAULT_VERB_RESPONSE, GONE_WRONG
+from prompt_toolkit.formatted_text import FormattedText
 
 STRIP_LIST = ["to", "a", "an", "the", "about", "with"]
 
@@ -18,7 +19,7 @@ class Parser:
             command = [s for s in command if s != word]
         return command
 
-    def parse(self, command: str) -> str:
+    def parse(self, command: str) -> str | FormattedText:
         split = self.split_to_words(command)
         lower = [s.lower() for s in split]
         stripped = self.strip(lower)
@@ -52,6 +53,8 @@ class Parser:
                 if not handled:
                     return verb_obj.handle_command(object=object, rest=rest)
                 else:
+                    if isinstance(handled, str) or isinstance(handled, FormattedText):
+                        return handled
                     return str(handled)
             else:
                 return verb_obj.handle_command(rest=rest)

@@ -1,6 +1,9 @@
+import prompt_toolkit
 from core.types.Object import Object
 from core.types.Response import Response
 from parser.types.Verb import Verb
+from strings import THEY_DONT_WANT_TO_TALK
+from prompt_toolkit.formatted_text import FormattedText
 
 
 class Character(Object):
@@ -16,7 +19,7 @@ class Character(Object):
         super().__init__(name, desc, adjective)
         self.responses = responses
 
-    def handle_command(self, **kwargs) -> str | bool:
+    def handle_command(self, **kwargs) -> str | FormattedText | bool:
         verb: str | Verb | None = kwargs.get("verb", None)
         # object: Writeable | str | None = kwargs.get("object", None)
         # indirect_object: Writeable | str | None = kwargs.get("indirect_object", None)
@@ -26,9 +29,16 @@ class Character(Object):
             if topic in self.responses:
                 response = self.responses[topic].response
                 if isinstance(response, str):
-                    return response
+                    return FormattedText([("bold", f"\n{self.name}: "), ("", response)])
             else:
-                return f"What do you want to talk to {self.name} about?"
+                if len(self.responses):
+                    topic = prompt_toolkit.choice(
+                        f"What do you want to talk to the{f' {self.adjective}' if self.adjective else ''} {self.name} about?",
+                        options=[(topic, topic) for topic in self.responses.keys()],
+                    )
+                    return self.handle_command(**{**kwargs, "rest": [topic]})
+                else:
+                    return THEY_DONT_WANT_TO_TALK
         return False
 
     # TODO: use this to print the character instead of directly accessing attributes

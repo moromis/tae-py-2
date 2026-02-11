@@ -118,7 +118,10 @@ def get_object_from_room(obj: Object | str, room: Room | str) -> str | None:
 def add_character_to_room(character: Character | str, room: Room | str) -> None:
     global rooms
     if isinstance(character, Character):
-        character = character.name
+        if character.adjective:
+            character = f"{character.adjective} {character.name}"
+        else:
+            character = character.name
     if isinstance(room, Room):
         room = room.name
     rooms[room].add_character(character)

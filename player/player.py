@@ -77,7 +77,9 @@ class Player:
             command = prompt()
             self.add_to_history(command)
             cls()
-            fprint(self.parser.parse(command))
+            res = self.parser.parse(command)
+            if res:
+                fprint(res)
             newline()
 
     def run(self):

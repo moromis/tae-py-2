@@ -18,11 +18,6 @@ def create_room():
             text="Which room(s) should this one be attached to?",
             values=[(r, r) for r in rooms.keys() if r != name],
         ).run()
-        # attached = choice(
-        #     "Which room should this one be attached to?",
-        #     options=[(r.name, r.name) for r in rooms],
-        # )
-        # get_valid_directions(attached)
         if len(adjacent_rooms):
             direction_choices = DIRECTIONS
             for ar in adjacent_rooms:
