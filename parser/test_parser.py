@@ -1,13 +1,16 @@
 import copy
 import unittest
-from unittest.mock import _patch_dict, patch
+from unittest.mock import patch
 
 from core.managers.object_manager import Object_Manager
+from core.types.Character import Character
+from core.types.Response import Response
 from parser.parser import Parser
 from parser.types.Verb import Verb
 from testing.fixtures import (
     INDIRECT_RESPONSE,
     OBJECT_RESPONSE,
+    TEST_CHARACTER,
     TEST_I_OBJ,
     TEST_OBJECT,
     TEST_VERB,
@@ -27,12 +30,14 @@ class TestParser(unittest.TestCase):
 
     def test_get_verb(self):
         parser = Parser()
-        verb_name, verb, command = parser.get_verb(
-            [TEST_VERB, "test", "asdf", TEST_OBJECT.name]
-        )
-        self.assertTrue(isinstance(verb, Verb))
-        self.assertEqual(verb_name, TEST_VERB)
-        self.assertEqual(len(command), 3)
+        res = parser.get_verb([TEST_VERB, "test", "asdf", TEST_OBJECT.name])
+        if res != None:
+            verb_name, verb, command = res
+            self.assertTrue(isinstance(verb, Verb))
+            self.assertEqual(verb_name, TEST_VERB)
+            self.assertEqual(len(command), 3)
+        else:
+            raise TypeError("get_verb result should not be None")
 
     def test_get_object(self):
         parser = Parser()
@@ -55,8 +60,10 @@ class TestParser(unittest.TestCase):
         indirect_obj = parser.get_indirect_object(
             ["asdf", "qwer", TEST_OBJECT.name, "zxcv"]
         )
-        self.assertIsNotNone(indirect_obj)
-        self.assertEqual(indirect_obj.name, TEST_OBJECT.name)  # type: ignore
+        if indirect_obj:
+            self.assertEqual(indirect_obj.name, TEST_OBJECT.name)
+        else:
+            raise TypeError("indirect object should not be None")
 
     def test_parse_object(self):
         parser = Parser()
@@ -82,4 +89,32 @@ class TestParser(unittest.TestCase):
         Object_Manager.add(test_i_obj)
         command = f"{TEST_VERB} {TEST_OBJECT.name} with {test_i_obj.name}"
         response = parser.parse(command)
-        self.assertEqual(response, test_i_obj.handlers[TEST_VERB](TEST_OBJECT.name))
+        self.assertEqual(response, test_i_obj.handlers[TEST_VERB](object=TEST_OBJECT))
+
+    def test_parse_talk(self):
+        parser = Parser()
+        Object_Manager.add(TEST_OBJECT)
+        test_character = copy.deepcopy(TEST_CHARACTER)
+        test_topic = "air"
+        test_response = Response("...but why is there air?")
+        test_character.add_response(test_topic, test_response)
+        Object_Manager.add(test_character)
+        self.assertIsInstance(test_character, Character)
+        command = f"talk to {TEST_CHARACTER.name} about {test_topic}"
+        response = parser.parse(command)
+        self.assertEqual(response, test_response.response)
+
+    def test_parse_talk_no_topic(self):
+        parser = Parser()
+        Object_Manager.add(TEST_OBJECT)
+        test_character = copy.deepcopy(TEST_CHARACTER)
+        test_topic = "air"
+        test_response = Response("...but why is there air?")
+        test_character.add_response(test_topic, test_response)
+        Object_Manager.add(test_character)
+        self.assertIsInstance(test_character, Character)
+        command = f"talk to {TEST_CHARACTER.name}"
+        response = parser.parse(command)
+        self.assertIsNot(response, False)
+        self.assertStartsWith(response, "What do you want to talk")
+        self.assertEndsWith(response, "about?")
