@@ -1,15 +1,23 @@
 class History:
-    def __init__(self) -> None:
-        self.history: list[str] = []
 
-    def push_history(self, command: str):
-        self.history.append(command)
+    history: list[str] = []
 
-    def get_latest_command(self):
-        return self.history[-1]
+    @classmethod
+    def push_history(cls, command: str):
+        cls.history.append(command)
 
-    def undo_latest_command(self):
-        return self.history.pop()
+    @classmethod
+    def get_latest_command(cls):
+        return cls.history[-1]
 
-    def get_history(self) -> list[str]:
-        return self.history
+    @classmethod
+    def undo_latest_command(cls):
+        return cls.history.pop()
+
+    @classmethod
+    def get_history(cls) -> list[str]:
+        return cls.history
+
+    @classmethod
+    def reset(cls):
+        cls.history = []
