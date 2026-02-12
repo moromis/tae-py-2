@@ -5,8 +5,8 @@ from core.helpers.yes_no import yes_no
 from strings import CONTINUE_ON
 
 
-def confirm(f: Callable):
-    res = yes_no("Are you sure?")
+def confirm(f: Callable, message="Are you sure?"):
+    res = yes_no(message)
     if res:
         f()
     else:
