@@ -1,12 +1,15 @@
 import copy
 import unittest
 
+from mock import patch
+
 
 from parser.verbs.undo import NOTHING_TO_UNDO, undo
 from player.player import Player
 from testing.fixtures import TEST_COMMANDS
 
 
+@patch("core.logger.log")
 class TestUndo(unittest.TestCase):
     def test_undo(self, *args):
         player = Player()
