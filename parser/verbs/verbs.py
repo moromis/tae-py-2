@@ -13,6 +13,7 @@ from parser.verbs.move import move
 from parser.verbs.take import take
 from parser.verbs.open import open
 from parser.verbs.undo import undo
+from player.history import History
 from strings import DEFAULT_VERB_RESPONSE, TALK_TO_WHOM
 
 NO_RESPONSE_VERB = Verb(DEFAULT_VERB_RESPONSE)
@@ -21,6 +22,7 @@ MOVE = Verb(move, synonyms=["go", "walk"])
 
 NO_OBJECT_VERBS = {
     "undo": Verb(undo),
+    "history": Verb(lambda **kwargs: str(History.get_history())),
     "inventory": Verb(get_inventory_string),
     "save": Verb("save"),
     "exit": Verb(

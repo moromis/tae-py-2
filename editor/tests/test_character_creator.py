@@ -1,5 +1,4 @@
 import copy
-import functools
 import unittest
 
 from mock import patch
@@ -13,24 +12,11 @@ from testing.fixtures import TEST_CHARACTER, TEST_ROOM
 side_effect = [TEST_CHARACTER.name, TEST_CHARACTER.desc]
 
 
-# Source - https://stackoverflow.com/a/44635908
-# Posted by specialunderwear, modified by community. See post 'Timeline' for change history
-# Retrieved 2026-02-05, License - CC BY-SA 4.0
-def apply_patches(func):
-    @functools.wraps(func)
-    @patch("core.logger.log")
-    @patch("editor.character_creator.fprint")
-    @patch("editor.character_creator.prompt", side_effect=side_effect)
-    @patch("editor.character_creator.yes_no", return_value=True)
-    @patch("editor.character_creator.choice", return_value=TEST_ROOM.name)
-    @patch("editor.character_creator.character_responses", return_value=[])
-    def _(*args, **kwargs):
-        return func(*args, **kwargs)
-
-    return _
-
-
-@apply_patches
+@patch("editor.character_creator.fprint")
+@patch("editor.character_creator.prompt", side_effect=side_effect)
+@patch("editor.character_creator.yes_no", return_value=True)
+@patch("editor.character_creator.choice", return_value=TEST_ROOM.name)
+@patch("editor.character_creator.character_responses", return_value=[])
 class TestCharacterCreator(unittest.TestCase):
 
     def tearDown(self) -> None:

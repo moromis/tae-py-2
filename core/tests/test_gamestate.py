@@ -16,6 +16,8 @@ class TestGameState(unittest.TestCase):
         super().tearDown()
         os.remove(TEST_FILENAME)
 
+    @patch("core.managers.meta.migrations.fprint")
+    @patch("core.gamestate.fprint")
     @patch("builtins.input")
     @patch("core.gamestate.select_file", return_value=TEST_FILENAME)
     def test_load_game_migrates_version(self, *args, **kwargs):

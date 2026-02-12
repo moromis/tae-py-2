@@ -1,6 +1,6 @@
 import prompt_toolkit
 
-from core import logger
+from core.logger import log
 from core.helpers.fprint import fprint
 from strings import PROMPT_CHAR
 
@@ -16,6 +16,6 @@ def prompt(s: str = "", multiline=False, **kwargs) -> str:
         fprint("(Hint: multiline input -- press Esc then Enter once you're done)")
     fprint("\n", skip_logging=True)
     res = session.prompt(multiline=multiline, **kwargs)
-    logger.log(f"{PROMPT_CHAR}{res}")
+    log(f"{PROMPT_CHAR}{res}")
     fprint("\n", skip_logging=True)
     return res

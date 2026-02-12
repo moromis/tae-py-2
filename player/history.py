@@ -21,3 +21,11 @@ class History:
     @classmethod
     def reset(cls):
         cls.history = []
+
+    @classmethod
+    def get_pretty_last_ten(cls):
+        ret = ""
+        if len(cls.history) > 0:
+            ret += f"- {cls.history[0]}"
+        if len(cls.history) > 1:
+            ret += "\n- ".join(cls.history[1:10])

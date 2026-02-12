@@ -1,7 +1,7 @@
 import prompt_toolkit
 from prompt_toolkit.formatted_text import FormattedText
 
-from core import logger
+from core.logger import log
 
 
 def _bold(s: str):
@@ -10,7 +10,7 @@ def _bold(s: str):
 
 def fprint(s: str | FormattedText, bold=False, pinned=False, skip_logging=False):
     if not pinned and not skip_logging:
-        logger.log(s)
+        log(s)
     fs = s
     if bold and isinstance(s, str):
         fs = _bold(s)
