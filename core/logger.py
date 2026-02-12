@@ -5,15 +5,16 @@ from prompt_toolkit.formatted_text import FormattedText
 
 
 timestamp = datetime.now()
-log_folder = "logs"
-filename = Path(log_folder, f"{timestamp}.log.txt")
+LOG_FOLDER = "logs"
+filename = None
 
 
-# TODO: allow for choosing log files location
-def log(s: str | FormattedText):
+def log(s: str | FormattedText, folder=LOG_FOLDER):
     global timestamp
-    if not os.path.isdir(log_folder):
-        os.makedirs(log_folder)
+    global filename
+    filename = Path(folder, f"{timestamp}.log.txt")
+    if not os.path.isdir(folder):
+        os.makedirs(folder)
     with open(filename, "a+") as file:
         if isinstance(s, FormattedText):
             s = str(s)
