@@ -12,6 +12,7 @@ from parser.verbs.look import look
 from parser.verbs.move import move
 from parser.verbs.take import take
 from parser.verbs.open import open
+from parser.verbs.undo import undo
 from strings import DEFAULT_VERB_RESPONSE, TALK_TO_WHOM
 
 NO_RESPONSE_VERB = Verb(DEFAULT_VERB_RESPONSE)
@@ -19,6 +20,7 @@ NO_RESPONSE_VERB = Verb(DEFAULT_VERB_RESPONSE)
 MOVE = Verb(move, synonyms=["go", "walk"])
 
 NO_OBJECT_VERBS = {
+    "undo": Verb(undo),
     "inventory": Verb(get_inventory_string),
     "save": Verb("save"),
     "exit": Verb(

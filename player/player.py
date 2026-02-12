@@ -7,8 +7,8 @@ from core.helpers.prompt import prompt
 from core.managers.meta import meta_manager
 from core.managers.room_manager import get_entrance_room
 from core.repl import REPL
-from player.history import History
 from parser.parser import Parser
+from player.history import History
 from strings import (
     GAME_LOAD_FAILED,
     GAME_LOADED,
@@ -26,8 +26,7 @@ PLAY_GAME = "Play the game"
 
 class Player:
     def __init__(self) -> None:
-        self.history = History()
-        self.loaded = meta_manager.get_meta_by_key(meta_manager.META_KEYS.TITLE) == NONE
+        self.loaded = meta_manager.get_meta_by_key(meta_manager.META_KEYS.TITLE) != NONE
         self.new_room = True
         self.player_structure = {
             PLAYER_MAIN: {LOAD_GAME: self.load_game, GO_BACK: STOP_CODE}
@@ -45,7 +44,10 @@ class Player:
         self.parser = Parser()
 
     def add_to_history(self, command: str) -> None:
-        self.history.push_history(command)
+        History.push_history(command)
+
+    def get_history(self):
+        return History.get_history()
 
     def save_game(self):
         return GAME_SAVED
@@ -80,12 +82,14 @@ class Player:
                 self.new_room = False
                 newline()
             command = prompt()
-            self.add_to_history(command)
             cls()
             res = self.parser.parse(command)
             if res:
                 fprint(res)
             newline()
+
+            # add the command to history
+            self.add_to_history(command)
 
     def run(self, entrypoint: str | list[str] = PLAYER_MAIN):
         self.repl.run(entrypoint)
