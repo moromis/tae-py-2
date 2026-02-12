@@ -127,6 +127,7 @@ class REPL:
             )
             logger.log(f"{PROMPT_CHAR}{chosen}")
         except (EOFError, KeyboardInterrupt):
-            return ReplResult(path=self.entrypoint, replace=True)
+            self.stop()
+            return ReplResult()
         cls()
         return ReplResult(path=chosen)

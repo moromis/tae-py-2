@@ -3,7 +3,7 @@
 - ~~Add adjacencies to rooms~~
 - Implement game preview/save/resume in editor
 - ~~Fix go back in menus~~
-  - Fix exit with ctrl+c from main menu
+  - ~~Fix exit with ctrl+c from main menu~~
 
 - rooms, adjacencies, and movement
 
