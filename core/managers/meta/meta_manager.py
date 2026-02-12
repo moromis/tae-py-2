@@ -1,8 +1,15 @@
-from enum import Enum
+from enum import StrEnum, Enum
 from core.helpers.fprint import fprint
 from strings import NONE
 
-SCHEMA_VERSION = "0.0.2"
+
+class SCHEMA_VERSIONS(StrEnum):
+    _0_0_1 = "0.0.1"
+    _0_0_2 = "0.0.2"
+    _0_0_3 = "0.0.3"
+
+
+CURRENT_SCHEMA_VERSION = SCHEMA_VERSIONS._0_0_3
 
 
 class META_KEYS(Enum):
@@ -13,7 +20,7 @@ class META_KEYS(Enum):
 
 meta: dict[str, str] = {
     META_KEYS.TITLE.value: NONE,
-    META_KEYS.SCHEMA.value: SCHEMA_VERSION,
+    META_KEYS.SCHEMA.value: CURRENT_SCHEMA_VERSION,
 }
 
 

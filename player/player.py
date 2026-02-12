@@ -4,7 +4,7 @@ from core.helpers.cls import cls
 from core.helpers.fprint import fprint
 from core.helpers.newline import newline
 from core.helpers.prompt import prompt
-from core.managers import meta_manager
+from core.managers.meta import meta_manager
 from core.managers.room_manager import get_entrance_room
 from core.repl import REPL
 from player.history import History
@@ -15,9 +15,10 @@ from strings import (
     GAME_SAVED,
     GO_BACK,
     NO_GAME_LOADED,
+    NONE,
 )
 
-MAIN = "Welcome to the TAE Player"
+PLAYER_MAIN = "Welcome to the TAE Player"
 LOAD_GAME = "Load a game"
 LOAD_GAME_DIFFERENT = "Load a different game"
 PLAY_GAME = "Play the game"
@@ -26,17 +27,21 @@ PLAY_GAME = "Play the game"
 class Player:
     def __init__(self) -> None:
         self.history = History()
-        self.loaded = False
+        self.loaded = meta_manager.get_meta_by_key(meta_manager.META_KEYS.TITLE) == NONE
         self.new_room = True
-        self.player_structure = {MAIN: {LOAD_GAME: self.load_game, GO_BACK: STOP_CODE}}
+        self.player_structure = {
+            PLAYER_MAIN: {LOAD_GAME: self.load_game, GO_BACK: STOP_CODE}
+        }
         self.player_structure_loaded = {
-            MAIN: {
+            PLAYER_MAIN: {
                 PLAY_GAME: self.play_game,
                 LOAD_GAME_DIFFERENT: self.load_game,
                 GO_BACK: STOP_CODE,
             }
         }
-        self.repl = REPL(self.player_structure)
+        self.repl = REPL(
+            self.player_structure_loaded if self.loaded else self.player_structure
+        )
         self.parser = Parser()
 
     def add_to_history(self, command: str) -> None:
@@ -51,7 +56,7 @@ class Player:
             self.loaded = True
             self.repl.stop()
             self.repl = REPL(self.player_structure_loaded)
-            self.repl.run(MAIN)
+            self.repl.run(PLAYER_MAIN)
         else:
             fprint(GAME_LOAD_FAILED)
 
@@ -82,13 +87,13 @@ class Player:
                 fprint(res)
             newline()
 
-    def run(self):
-        self.repl.run(MAIN)
+    def run(self, entrypoint: str | list[str] = PLAYER_MAIN):
+        self.repl.run(entrypoint)
 
 
 # assuming we already have a game loaded, skip the loading and play the game
 def play():
-    if meta_manager.get_meta_by_key(meta_manager.META_KEYS.TITLE):
+    if meta_manager.get_meta_by_key(meta_manager.META_KEYS.TITLE) != NONE:
         Player().play_game()
     else:
         return NO_GAME_LOADED

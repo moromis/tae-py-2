@@ -11,6 +11,7 @@ from parser.verbs.hit import hit
 from parser.verbs.look import look
 from parser.verbs.move import move
 from parser.verbs.take import take
+from parser.verbs.open import open
 from strings import DEFAULT_VERB_RESPONSE, TALK_TO_WHOM
 
 NO_RESPONSE_VERB = Verb(DEFAULT_VERB_RESPONSE)
@@ -39,6 +40,7 @@ VERBS = {
     ),
     "drop": Verb(drop),
     "take": Verb(take, ["pick up", "grab"]),
+    "open": Verb(open),
     **NO_OBJECT_VERBS,
 }
 

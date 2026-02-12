@@ -1,5 +1,6 @@
 import prompt_toolkit
 from core.types.Object import Object
+from core.types.ObjectProperties import OBJECT_PROPERTIES
 from core.types.Response import Response
 from parser.types.Verb import Verb
 from strings import THEY_DONT_WANT_TO_TALK
@@ -41,9 +42,11 @@ class Character(Object):
                     return THEY_DONT_WANT_TO_TALK
         return False
 
-    # TODO: use this to print the character instead of directly accessing attributes
     def __str__(self) -> str:
-        """Provides a string representation for the character."""
+        return super().__str__()
+
+    # TODO: use this to print the character instead of directly accessing attributes
+    def __desc__(self):
         return f"{self.name}\n{self.desc}"
 
     def to_dict(self):
@@ -55,7 +58,7 @@ class Character(Object):
                 if self.responses
                 else None
             ),
-            "is_character": True,
+            OBJECT_PROPERTIES.IS_CHARACTER: True,
         }
 
     def from_dict(self, d: dict):

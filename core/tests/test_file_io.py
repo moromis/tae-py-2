@@ -2,7 +2,7 @@ import unittest
 import os
 import json
 
-from core.managers import meta_manager
+from core.managers.meta import meta_manager
 from core.file_io import (
     create_json_file_if_not_exists,
     write_data_json,

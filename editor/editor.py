@@ -5,8 +5,8 @@ from editor.character_creator import create_character, view_characters
 from editor.object_creator import create_object
 from editor.room_creator import create_room
 from core import prompt
-from core.managers.meta_manager import set_meta_by_key, META_KEYS, print_title
-from core.file_io import write_game_data
+from core.managers.meta.meta_manager import set_meta_by_key, META_KEYS, print_title
+from core.file_io import select_folder, write_game_data
 from core.repl import REPL, repl_noop
 from core.types.ReplResult import ReplResult
 from player import player
@@ -27,9 +27,9 @@ def new_game():
 
     fprint("\n Select the folder to place the game's files in")
     filename = title.lower().replace(" ", "_")
-    # folder = select_folder()
+    folder = select_folder()
     # TODO: revert, uncomment above, delete below
-    folder = "/Users/momo/Projects/tae-2026-test-games"
+    # folder = "/Users/momo/Projects/tae-2026-test-games"
     fprint(filename)
     fprint(folder)
     global filepath

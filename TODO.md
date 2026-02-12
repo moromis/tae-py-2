@@ -16,3 +16,9 @@
 
 - hot reload
   - save commands, loaded game to disk, restart process with external script, reload game, run back commands
+  - for editing while playing... watch files?
+
+- default desc: f"A/An {adjective} {name}"
+
+- item inside item
+  - item inside closed item, can't be taken till item is opened

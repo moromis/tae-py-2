@@ -1,2 +1,2 @@
-def noop():
+def noop(*args, **kwargs):
     pass

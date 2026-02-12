@@ -30,6 +30,9 @@ class REPLRouter:
     def clear(self):
         self.history_stack = []
 
+    def set(self, new_history: list[str]):
+        self.history_stack = new_history
+
     def traverse_history(self):
         current_pointer = self.structure
         for index in self.history_stack:
@@ -55,12 +58,17 @@ class REPL:
             else:
                 fprint(p, bold=True, pinned=True)
 
-    def run(self, entrypoint=BASE_PATH):
+    def run(self, entrypoint: str | list[str] = BASE_PATH):
 
         if entrypoint != BASE_PATH:
-            self.entrypoint = entrypoint
-            self.router.clear()
-            self.router.push(entrypoint)
+            if isinstance(entrypoint, str):
+                self.entrypoint = entrypoint
+                self.router.clear()
+                self.router.push(entrypoint)
+            else:
+                self.entrypoint = entrypoint[-1]
+                self.router.clear()
+                self.router.set(entrypoint)
 
         cls()
 

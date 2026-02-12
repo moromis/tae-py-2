@@ -1,5 +1,6 @@
 from core import Object
 from core.types.Character import Character
+from core.types.ObjectProperties import OBJECT_PROPERTIES
 
 
 class Object_Manager:
@@ -28,7 +29,7 @@ class Object_Manager:
         sanitized_objects = {}
         for n, o in new_objects.items():
             if not isinstance(o, Object):
-                if o.get("is_character", False):
+                if o.get(OBJECT_PROPERTIES.IS_CHARACTER, False):
                     obj = Character(n)
                 else:
                     obj = Object(n)

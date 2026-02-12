@@ -6,7 +6,8 @@ from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import askdirectory
 
 from core.helpers.fprint import fprint
-from core.managers import room_manager, meta_manager
+from core.managers import room_manager
+from core.managers.meta import meta_manager
 from core.managers.object_manager import Object_Manager
 from core.types.Writeable import Writeable
 
