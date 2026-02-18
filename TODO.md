@@ -14,7 +14,7 @@
 - properly close tkinter window after selecting file
 
 - Save files
-- UNDO
+- ~~UNDO~~
 - Editing while playing?
   - Separate state and game... could write new game files, load in, and reapply state/commands? depends on changes
 
