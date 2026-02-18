@@ -10,10 +10,10 @@
 - fix player "exit" verb exiting to main menu
 - fix not being able to re-enter player after exiting
 
-- return focus to command line after selecting file
-- properly close tkinter window after selecting file
+- ~~return focus to command line after selecting file~~
+- ~~properly close tkinter window after selecting file~~
 
-- Save files
+- (game) save files
 - ~~UNDO~~
 - Editing while playing?
   - Separate state and game... could write new game files, load in, and reapply state/commands? depends on changes

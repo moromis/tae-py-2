@@ -28,16 +28,16 @@ def new_game():
     fprint("\n Select the folder to place the game's files in")
     filename = title.lower().replace(" ", "_")
     folder = select_folder()
-    # TODO: revert, uncomment above, delete below
-    # folder = "/Users/momo/Projects/tae-2026-test-games"
-    fprint(filename)
-    fprint(folder)
-    global filepath
-    filepath = os.path.join(folder, filename)
-    set_meta_by_key(META_KEYS.FILEPATH, filepath)
-    # TODO: revert
-    # input("Press Enter to continue...")
-    write_game_data()
+    if folder:
+        fprint(filename)
+        fprint(folder)
+        global filepath
+        filepath = os.path.join(folder, filename)
+        set_meta_by_key(META_KEYS.FILEPATH, filepath)
+        write_game_data()
+    else:
+        fprint("Folder not successfully selected")
+    input("Press Enter to continue...")
     return ReplResult(path=MAIN, clear=True)
 
 

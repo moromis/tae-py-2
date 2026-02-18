@@ -1,9 +1,8 @@
 import json
 import os
 
-from tkinter import Tk
-from tkinter.filedialog import askopenfilename
-from tkinter.filedialog import askdirectory
+import platform
+import subprocess
 
 from core.helpers.fprint import fprint
 from core.managers import room_manager
@@ -13,18 +12,95 @@ from core.types.Writeable import Writeable
 
 
 # https://stackoverflow.com/questions/50860640/ask-a-user-to-select-folder-to-read-the-files-in-python
-def select_folder() -> str:
-    Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
-    path = askdirectory(title="Select Folder")  # shows dialog box and return the path
-    return path
+def select_folder():
+    os_name = platform.system()
+
+    # macOS: Use AppleScript 'choose folder'
+    if os_name == "Darwin":
+        cmd = 'osascript -e "POSIX path of (choose folder)" 2>/dev/null'
+        try:
+            return subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
+        except subprocess.CalledProcessError:
+            return None
+
+    # Windows: Use PowerShell 'FolderBrowserDialog'
+    elif os_name == "Windows":
+        cmd = [
+            "powershell",
+            "-NoProfile",
+            "-Command",
+            "Add-Type -AssemblyName System.Windows.Forms; "
+            "$f = New-Object System.Windows.Forms.FolderBrowserDialog; "
+            "$f.ShowDialog() | Out-Null; $f.SelectedPath",
+        ]
+        try:
+            return subprocess.check_output(cmd).decode("utf-8").strip()
+        except subprocess.CalledProcessError:
+            return None
+
+    # Linux: Use Zenity with the --directory flag
+    elif os_name == "Linux":
+        try:
+            # Zenity is standard for GTK; use --directory to restrict selection
+            return (
+                subprocess.check_output(["zenity", "--file-selection", "--directory"])
+                .decode("utf-8")
+                .strip()
+            )
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            print("Zenity not found. Install 'zenity' for Linux folder dialogs.")
+            return None
+
+    return None
 
 
-# https://stackoverflow.com/questions/3579568/choosing-a-file-in-python-with-simple-dialog
-def select_file() -> str:
-    filename = (
-        askopenfilename()
-    )  # show an "Open" dialog box and return the path to the selected file
-    return filename
+def select_file():
+    os_name = platform.system()
+
+    # macOS: Use AppleScript for a native dialog
+    if os_name == "Darwin":
+        cmd = 'osascript -e "POSIX path of (choose file of type {\\"public.json\\"})" 2>/dev/null'
+        try:
+            return subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
+        except subprocess.CalledProcessError:
+            return None
+
+    # Windows: Use PowerShell to open the native .NET OpenFileDialog
+    elif os_name == "Windows":
+        filter_str = "JSON Files (*.json)|*.json"
+        cmd = [
+            "powershell",
+            "-NoProfile",
+            "-Command",
+            "Add-Type -AssemblyName System.Windows.Forms; "
+            f"$f = New-Object System.Windows.Forms.OpenFileDialog; $f.Filter = '{filter_str}'; "
+            "$f.ShowDialog() | Out-Null; $f.FileName",
+        ]
+        try:
+            return subprocess.check_output(cmd).decode("utf-8").strip()
+        except subprocess.CalledProcessError:
+            return None
+
+    # Linux: Use Zenity (common on GNOME/Ubuntu) or fallback
+    elif os_name == "Linux":
+        try:
+            # Zenity is the standard CLI-to-GUI tool for Linux
+            cmd = [
+                "zenity",
+                "--file-selection",
+                "--file-filter=JSON files (*.json) | *.json",
+            ]
+            return subprocess.check_output(cmd).decode("utf-8").strip()
+        except (
+            subprocess.CalledProcessError,
+            FileNotFoundError,
+        ):  # TODO: install zenity as part of installation?
+            print(
+                "Zenity not found. Please install 'zenity' for file dialogs on Linux."
+            )
+            return None
+
+    return None
 
 
 def write_game_data():
