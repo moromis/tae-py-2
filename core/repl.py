@@ -1,6 +1,7 @@
 import prompt_toolkit
 from const import GO_BACK_CODE, STOP_CODE
 from core import cls, fprint, logger
+from core.args_parser import ArgsParser
 from core.types.ReplResult import ReplResult
 from strings import BASE_PATH, PROMPT_CHAR
 
@@ -41,12 +42,13 @@ class REPLRouter:
 
 
 class REPL:
-    def __init__(self, structure, pins=[]) -> None:
+    def __init__(self, structure, pins=[], type=None) -> None:
         self.router = REPLRouter(structure)
         self.structure = structure
         self.running = True
         self.pinned = pins
         self.entrypoint = BASE_PATH
+        self.type = type
 
     # for printing messages after a cls
     # think of it like toasts. Remove from the end
@@ -59,6 +61,8 @@ class REPL:
                 fprint(p, bold=True, pinned=True)
 
     def run(self, entrypoint: str | list[str] = BASE_PATH):
+        if ArgsParser.get_debug():
+            fprint(f"start running repl {self.type}", debug=True)
 
         if entrypoint != BASE_PATH:
             if isinstance(entrypoint, str):

@@ -18,6 +18,9 @@
 - Editing while playing?
   - Separate state and game... could write new game files, load in, and reapply state/commands? depends on changes
 
+- settings
+  - simulate lag (wait n milliseconds before printing each line), slider or number input
+
 - multiple commands (split_by_and)
 
 - hot reload

@@ -8,10 +8,12 @@ def _bold(s: str):
     return FormattedText([("bold", s)])
 
 
-def fprint(s: str | FormattedText, bold=False, pinned=False, skip_logging=False):
+def fprint(
+    s: str | FormattedText, bold=False, pinned=False, skip_logging=False, debug=False
+):
+    fs = f"{"DEBUG: " if debug else ""}{s}"
     if not pinned and not skip_logging:
-        log(s)
-    fs = s
-    if bold and isinstance(s, str):
-        fs = _bold(s)
+        log(fs)
+    if bold and isinstance(fs, str):
+        fs = _bold(fs)
     prompt_toolkit.print_formatted_text(fs)
