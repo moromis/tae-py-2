@@ -1,7 +1,6 @@
 # verbs, their synonyms, and their verb default behaviors
 
-import os
-from signal import Signals
+from const import STOP_CODE
 from core.helpers.confirm import confirm
 from editor.shared.directions import DIRECTIONS
 from parser.inventory import get_inventory_string
@@ -25,9 +24,7 @@ NO_OBJECT_VERBS = {
     "history": Verb(lambda **kwargs: str(History.get_history())),
     "inventory": Verb(get_inventory_string),
     "save": Verb("save"),
-    "exit": Verb(
-        lambda **kwargs: confirm(lambda: os.kill(os.getpid(), Signals.SIGINT))
-    ),
+    "exit": Verb(lambda **kwargs: confirm(lambda: STOP_CODE)),
     "talk": Verb(TALK_TO_WHOM, synonyms=["ask", "inquire", "query"]),
     "move": MOVE,
     **{d.value: MOVE for d in DIRECTIONS},

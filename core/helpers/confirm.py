@@ -8,6 +8,6 @@ from strings import CONTINUE_ON
 def confirm(f: Callable, message="Are you sure?"):
     res = yes_no(message)
     if res:
-        f()
+        return f()
     else:
         return CONTINUE_ON
