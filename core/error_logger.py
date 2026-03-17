@@ -4,7 +4,7 @@ import logging
 logger = None
 
 
-def log_error(error: Exception):
+def log_error(error):
     global logger
     if logger == None:
         logging.basicConfig(

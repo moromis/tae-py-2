@@ -1,7 +1,7 @@
 from const import STOP_CODE
 from core.gamestate import load_game
 from core.helpers.cls import cls
-from core.helpers.fprint import fprint
+from core.helpers.fprint import fprint, set_print_delay
 from core.helpers.newline import newline
 from core.helpers.prompt import prompt
 from core.managers.meta import meta_manager
@@ -15,6 +15,7 @@ from player.player_structure import (
     PLAY_GAME,
     WELCOME_TO_PLAYER,
 )
+from player.settings.settings import Settings
 from strings import (
     GAME_LOAD_FAILED,
     GAME_LOADED,
@@ -22,6 +23,7 @@ from strings import (
     GO_BACK,
     NO_GAME_LOADED,
     NONE,
+    SETTINGS,
 )
 
 
@@ -30,15 +32,22 @@ class Player:
         self.reset()
 
     def reset(self):
+        set_print_delay(0)
         self.loaded = meta_manager.get_meta_by_key(meta_manager.META_KEYS.TITLE) != NONE
+        self.settings = Settings()
         self.new_room = True
         self.player_structure = {
-            WELCOME_TO_PLAYER: {LOAD_GAME: self.load_game, GO_BACK: STOP_CODE}
+            WELCOME_TO_PLAYER: {
+                LOAD_GAME: self.load_game,
+                SETTINGS: Settings.open_settings_menu,
+                GO_BACK: STOP_CODE,
+            }
         }
         self.player_structure_loaded = {
             WELCOME_TO_PLAYER: {
                 PLAY_GAME: self.play_game,
                 LOAD_GAME_DIFFERENT: self.load_game,
+                SETTINGS: Settings.open_settings_menu,
                 GO_BACK: STOP_CODE,
             }
         }
@@ -71,6 +80,7 @@ class Player:
             fprint(GAME_LOAD_FAILED)
 
     def play_game(self):
+        set_print_delay(Settings.get_print_delay())
         self.keep_playing = True
         room = get_entrance_room()
         cls()

@@ -13,9 +13,8 @@ def repl_noop():
 
 
 class REPLRouter:
-    def __init__(self, structure) -> None:
+    def __init__(self) -> None:
         self.history_stack = [BASE_PATH]
-        self.structure = structure
 
     def peek(self, idx=1):
         return self.history_stack[-idx]
@@ -34,8 +33,8 @@ class REPLRouter:
     def set(self, new_history: list[str]):
         self.history_stack = new_history
 
-    def traverse_history(self):
-        current_pointer = self.structure
+    def traverse_history(self, structure):
+        current_pointer = structure
         for index in self.history_stack:
             current_pointer = current_pointer[index]
         return current_pointer
@@ -43,7 +42,7 @@ class REPLRouter:
 
 class REPL:
     def __init__(self, structure, pins=[], type=None) -> None:
-        self.router = REPLRouter(structure)
+        self.router = REPLRouter()
         self.structure = structure
         self.running = True
         self.pinned = pins
@@ -79,7 +78,7 @@ class REPL:
         while self.running:
             self.print_pinned()
             try:
-                pointer = self.router.traverse_history()
+                pointer = self.router.traverse_history(self.structure)
 
                 result: ResultType = None
 
@@ -135,3 +134,6 @@ class REPL:
             return ReplResult()
         cls()
         return ReplResult(path=chosen)
+
+    def set_structure(self, new_structure):
+        self.structure = new_structure

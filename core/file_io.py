@@ -144,3 +144,8 @@ def write_data_json(filename, data):
         if isinstance(data, Writeable):
             data = data.to_dict()
         json.dump(data, f)
+
+
+def read_data_json(filename):
+    with open(f"{filename}.json", "r") as f:
+        return json.load(f)
