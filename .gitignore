@@ -60,3 +60,5 @@ htmlcov
 
 # Sphinx documentation
 docs/_build/
+
+settings.json

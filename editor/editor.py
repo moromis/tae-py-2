@@ -86,5 +86,5 @@ editor_structure = {
 
 # main loop
 def main_loop():
-    repl = REPL(editor_structure, pins=[print_title])
+    repl = REPL(editor_structure, pins=[print_title], type="Editor")
     repl.run(GAME)

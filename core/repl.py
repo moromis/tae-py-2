@@ -1,6 +1,7 @@
 import prompt_toolkit
 from const import GO_BACK_CODE, STOP_CODE
 from core import cls, fprint, logger
+from core.args_parser import ArgsParser
 from core.types.ReplResult import ReplResult
 from strings import BASE_PATH, PROMPT_CHAR
 
@@ -12,9 +13,8 @@ def repl_noop():
 
 
 class REPLRouter:
-    def __init__(self, structure) -> None:
+    def __init__(self) -> None:
         self.history_stack = [BASE_PATH]
-        self.structure = structure
 
     def peek(self, idx=1):
         return self.history_stack[-idx]
@@ -33,20 +33,21 @@ class REPLRouter:
     def set(self, new_history: list[str]):
         self.history_stack = new_history
 
-    def traverse_history(self):
-        current_pointer = self.structure
+    def traverse_history(self, structure):
+        current_pointer = structure
         for index in self.history_stack:
             current_pointer = current_pointer[index]
         return current_pointer
 
 
 class REPL:
-    def __init__(self, structure, pins=[]) -> None:
-        self.router = REPLRouter(structure)
+    def __init__(self, structure, pins=[], type=None) -> None:
+        self.router = REPLRouter()
         self.structure = structure
         self.running = True
         self.pinned = pins
         self.entrypoint = BASE_PATH
+        self.type = type
 
     # for printing messages after a cls
     # think of it like toasts. Remove from the end
@@ -59,6 +60,10 @@ class REPL:
                 fprint(p, bold=True, pinned=True)
 
     def run(self, entrypoint: str | list[str] = BASE_PATH):
+        self.running = True
+
+        if ArgsParser.get_debug():
+            fprint(f"start running repl {self.type}", debug=True)
 
         if entrypoint != BASE_PATH:
             if isinstance(entrypoint, str):
@@ -75,7 +80,7 @@ class REPL:
         while self.running:
             self.print_pinned()
             try:
-                pointer = self.router.traverse_history()
+                pointer = self.router.traverse_history(self.structure)
 
                 result: ResultType = None
 
@@ -131,3 +136,6 @@ class REPL:
             return ReplResult()
         cls()
         return ReplResult(path=chosen)
+
+    def set_structure(self, new_structure):
+        self.structure = new_structure

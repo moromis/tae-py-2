@@ -33,11 +33,5 @@ class Verb:
 
         if callable(self.default_response):
             return self.default_response(**kwargs)
-            # if object and indirect_object:
-            #     return self.default_response(object, indirect_object, rest)
-            # elif object:
-            #     return self.default_response(object, rest)
-            # else:
-            #     return self.default_response(rest)
         else:
             return self.default_response
