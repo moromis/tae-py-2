@@ -60,6 +60,8 @@ class REPL:
                 fprint(p, bold=True, pinned=True)
 
     def run(self, entrypoint: str | list[str] = BASE_PATH):
+        self.running = True
+
         if ArgsParser.get_debug():
             fprint(f"start running repl {self.type}", debug=True)
 

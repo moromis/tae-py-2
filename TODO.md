@@ -1,14 +1,17 @@
 - Implement player app
 - Implement response conditions
 - ~~Add adjacencies to rooms~~
-- Implement game preview/save/resume in editor
+- Implement game ___ in editor
+  ~~- preview~~
+  - save
+  - resume
 - ~~Fix go back in menus~~
   - ~~Fix exit with ctrl+c from main menu~~
 
 - ~~rooms, adjacencies, and movement~~
 
-- fix player "exit" verb exiting to main menu
-- fix not being able to re-enter player after exiting
+~~- fix player "exit" verb exiting to main menu~~
+~~- fix not being able to re-enter player after exiting~~
 
 - ~~return focus to command line after selecting file~~
 - ~~properly close tkinter window after selecting file~~
