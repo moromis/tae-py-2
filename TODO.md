@@ -34,3 +34,12 @@
 
 - item inside item
   - item inside closed item, can't be taken till item is opened
+
+~~- timer system~~
+  ~~- tick~~
+  ~~- events queue~~
+  ~~- scheduled events~~
+
+- teleport/tp verb, editor only, teleports to a written or selected room
+
+- add History tests
